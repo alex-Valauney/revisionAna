@@ -6,11 +6,12 @@ window.EXERCISES_BY_CAT["geometrie"] = [
     title: "Vecteur normal et produit scalaire",
     difficulty: "facile",
     type: "qcm",
-    question: "<b>Bac Métropole 2023</b><br>Dans un repère orthonormé de l'espace, on considère les points $A(1; 0; 2)$, $B(2; 1; 4)$ et $C(3; 0; 1)$. Lequel de ces vecteurs est normal au plan $(ABC)$ ?",
+    source: "Bac Métropole • Juin 2023 • Sujet 1 – Ex. 4",
+    question: "<b>Bac Métropole – Juin 2023 – Sujet 1</b><br>Dans un repère orthonormé de l'espace, on considère les points $A(1; 0; 2)$, $B(2; 1; 4)$ et $C(3; 0; 1)$. Lequel de ces vecteurs est normal au plan $(ABC)$ ?",
     options: ["$\\vec{n}(1; -5; 2)$", "$\\vec{n}(2; 1; 4)$", "$\\vec{n}(1; 1; 2)$", "$\\vec{n}(1; 2; 3)$"],
     correctAnswer: 0,
     hint: "Calculez les coordonnées de $\\vec{AB}$ et $\\vec{AC}$, puis testez quel vecteur $\\vec{n}$ donne un produit scalaire nul avec les deux.",
-    explanation: "$\\vec{AB}(1; 1; 2)$ and $\\vec{AC}(2; 0; -1)$. <br> $\\vec{n} \\cdot \\vec{AB} = 1(1) + (-5)(1) + 2(2) = 0$. <br> $\\vec{n} \\cdot \\vec{AC} = 1(2) + (-5)(0) + 2(-1) = 0$. Donc $\\vec{n}$ est normal au plan."
+    explanation: "$\\vec{AB}(1; 1; 2)$ et $\\vec{AC}(2; 0; -1)$. <br> $\\vec{n} \\cdot \\vec{AB} = 1(1) + (-5)(1) + 2(2) = 0$. <br> $\\vec{n} \\cdot \\vec{AC} = 1(2) + (-5)(0) + 2(-1) = 0$. Donc $\\vec{n}$ est normal au plan."
   },
   {
     id: 42,
@@ -18,7 +19,8 @@ window.EXERCISES_BY_CAT["geometrie"] = [
     title: "Orthogonalité de vecteurs",
     difficulty: "facile",
     type: "ouvert",
-    question: "<b>Bac Centres Étrangers 2023</b><br>On considère les vecteurs $\\vec{u}(2; 1; -3)$ and $\\vec{v}(1; k; 2)$ dans un repère orthonormé. <br> Déterminer le réel $k$ pour que les vecteurs $\\vec{u}$ and $\\vec{v}$ soient orthogonaux.",
+    source: "Bac Centres Étrangers • Juin 2023 • Sujet 1 – Ex. 3",
+    question: "<b>Bac Centres Étrangers – Juin 2023 – Sujet 1</b><br>On considère les vecteurs $\\vec{u}(2; 1; -3)$ et $\\vec{v}(1; k; 2)$ dans un repère orthonormé. <br> Déterminer le réel $k$ pour que les vecteurs $\\vec{u}$ et $\\vec{v}$ soient orthogonaux.",
     correctAnswer: "4",
     hint: "Le produit scalaire doit être égal à 0.",
     explanation: "$\\vec{u} \\cdot \\vec{v} = 0 \\iff 2(1) + 1(k) + (-3)(2) = 0 \\iff 2 + k - 6 = 0 \\iff k - 4 = 0 \\iff k = 4$."
@@ -29,7 +31,8 @@ window.EXERCISES_BY_CAT["geometrie"] = [
     title: "Distance entre deux points",
     difficulty: "facile",
     type: "ouvert",
-    question: "<b>Bac Amérique du Nord 2022</b><br>Soient les points $A(2; 3; 1)$ and $B(5; 3; 5)$ dans un repère orthonormé. <br> Calculer la distance exacte $AB$.",
+    source: "Bac Amérique du Nord • Juin 2022 • Sujet 2 – Ex. 1",
+    question: "<b>Bac Amérique du Nord – Juin 2022 – Sujet 2</b><br>Soient les points $A(2; 3; 1)$ et $B(5; 3; 5)$ dans un repère orthonormé. <br> Calculer la distance exacte $AB$.",
     correctAnswer: "5",
     hint: "Utilisez la formule $AB = \\sqrt{(x_B-x_A)^2 + (y_B-y_A)^2 + (z_B-z_A)^2}$.",
     explanation: "$AB = \\sqrt{(5-2)^2 + (3-3)^2 + (5-1)^2} = \\sqrt{3^2 + 0^2 + 4^2} = \\sqrt{9 + 16} = \\sqrt{25} = 5$."
@@ -40,7 +43,8 @@ window.EXERCISES_BY_CAT["geometrie"] = [
     title: "Milieu d'un segment",
     difficulty: "facile",
     type: "ouvert",
-    question: "<b>Bac Antilles-Guyane 2021</b><br>Soient les points $A(1; 2; 5)$ and $B(3; 4; -1)$. <br> Calculer la coordonnée $z_I$ du milieu $I$ du segment $[AB]$.",
+    source: "Bac Antilles-Guyane • Juin 2021 • Sujet 1 – Ex. 1",
+    question: "<b>Bac Antilles-Guyane – Juin 2021 – Sujet 1</b><br>Soient les points $A(1; 2; 5)$ et $B(3; 4; -1)$. <br> Calculer la coordonnée $z_I$ du milieu $I$ du segment $[AB]$.",
     correctAnswer: "2",
     hint: "La coordonnée du milieu est la moyenne des coordonnées correspondantes : $z_I = \\frac{z_A + z_B}{2}$.",
     explanation: "$z_I = \\frac{5 + (-1)}{2} = \\frac{4}{2} = 2$."
@@ -51,7 +55,8 @@ window.EXERCISES_BY_CAT["geometrie"] = [
     title: "Équation cartésienne de plan",
     difficulty: "moyen",
     type: "ouvert",
-    question: "<b>Bac Polynésie 2022</b><br>Soit le plan $P$ passant par $A(1; 1; 1)$ and admettant le vecteur $\\vec{n}(2; 3; -1)$ comme vecteur normal. <br> Quelle est la valeur de la constante $d$ dans son équation cartésienne sous la forme $2x + 3y - z + d = 0$ ?",
+    source: "Bac Polynésie • Juin 2022 • Sujet 2 – Ex. 2",
+    question: "<b>Bac Polynésie – Juin 2022 – Sujet 2</b><br>Soit le plan $P$ passant par $A(1; 1; 1)$ et admettant le vecteur $\\vec{n}(2; 3; -1)$ comme vecteur normal. <br> Quelle est la valeur de la constante $d$ dans son équation cartésienne sous la forme $2x + 3y - z + d = 0$ ?",
     correctAnswer: "-4",
     hint: "Substituez les coordonnées de $A$ dans l'équation cartésienne pour trouver $d$.",
     explanation: "$2(1) + 3(1) - 1 + d = 0 \\iff 2 + 3 - 1 + d = 0 \\iff 4 + d = 0 \\iff d = -4$."
@@ -59,10 +64,11 @@ window.EXERCISES_BY_CAT["geometrie"] = [
   {
     id: 46,
     category: "geometrie",
-    title: "Représentation paramétrique de droite (QCM)",
+    title: "Représentation paramétrique de droite",
     difficulty: "moyen",
     type: "qcm",
-    question: "<b>Bac Réunion 2022</b><br>Soit la droite $D$ passant par $A(1; 2; 3)$ and dirigée par $\\vec{u}(0; -1; 2)$. Laquelle de ces représentations paramétriques modélise la droite $D$ ?",
+    source: "Bac La Réunion • Juin 2022 • Sujet 2 – Ex. 2",
+    question: "<b>Bac La Réunion – Juin 2022 – Sujet 2</b><br>Soit la droite $D$ passant par $A(1; 2; 3)$ et dirigée par $\\vec{u}(0; -1; 2)$. Laquelle de ces représentations paramétriques modélise la droite $D$ ?",
     options: [
       "$\\begin{cases} x = 1 \\\\ y = 2 - t \\\\ z = 3 + 2t \\end{cases}$",
       "$\\begin{cases} x = 1 + t \\\\ y = 2 - t \\\\ z = 3 + 2t \\end{cases}$",
@@ -79,7 +85,8 @@ window.EXERCISES_BY_CAT["geometrie"] = [
     title: "Intersection droite et plan",
     difficulty: "difficile",
     type: "ouvert",
-    question: "<b>Bac Asie 2022</b><br>On considère la droite $D : \\begin{cases} x = t \\\\ y = 2t \\\\ z = -t \\end{cases}$ and le plan $P : x + y + z - 4 = 0$. <br> Déterminer l'abscisse $x$ du point d'intersection de $D$ and $P$.",
+    source: "Bac Asie • Juin 2022 • Sujet 1 – Ex. 3",
+    question: "<b>Bac Asie – Juin 2022 – Sujet 1</b><br>On considère la droite $D : \\begin{cases} x = t \\\\ y = 2t \\\\ z = -t \\end{cases}$ et le plan $P : x + y + z - 4 = 0$. <br> Déterminer l'abscisse $x$ du point d'intersection de $D$ et $P$.",
     correctAnswer: "2",
     hint: "Remplacez $x$, $y$ et $z$ de la droite dans l'équation du plan pour trouver $t$.",
     explanation: "$t + 2t + (-t) - 4 = 0 \\iff 2t - 4 = 0 \\iff t = 2$. <br> L'abscisse du point est $x = t = 2$."
@@ -87,10 +94,11 @@ window.EXERCISES_BY_CAT["geometrie"] = [
   {
     id: 48,
     category: "geometrie",
-    title: "Coplanarité de vecteurs (QCM)",
+    title: "Coplanarité de vecteurs",
     difficulty: "moyen",
     type: "qcm",
-    question: "<b>Bac Nouvelle-Calédonie 2021</b><br>Trois vecteurs $\\vec{u}$, $\\vec{v}$ and $\\vec{w}$ de l'espace sont coplanaires si et seulement si :",
+    source: "Bac Nouvelle-Calédonie • Juin 2021 • Sujet 2 – Ex. 1",
+    question: "<b>Bac Nouvelle-Calédonie – Juin 2021 – Sujet 2</b><br>Trois vecteurs $\\vec{u}$, $\\vec{v}$ et $\\vec{w}$ de l'espace sont coplanaires si et seulement si :",
     options: [
       "Ils appartiennent tous à une même droite",
       "L'un des vecteurs est une combinaison linéaire des deux autres",
@@ -107,7 +115,8 @@ window.EXERCISES_BY_CAT["geometrie"] = [
     title: "Distance point-plan",
     difficulty: "difficile",
     type: "ouvert",
-    question: "<b>Bac Métropole 2022</b><br>On considère le point $A(1; 1; 2)$ and le plan $P$ d'équation cartésienne $2x + 2y - z - 8 = 0$. <br> Calculer la distance du point $A$ au plan $P$.",
+    source: "Bac Métropole • Juin 2022 • Sujet 2 – Ex. 3",
+    question: "<b>Bac Métropole – Juin 2022 – Sujet 2</b><br>On considère le point $A(1; 1; 2)$ et le plan $P$ d'équation cartésienne $2x + 2y - z - 8 = 0$. <br> Calculer la distance du point $A$ au plan $P$.",
     correctAnswer: "2",
     hint: "Utilisez la formule $d(A, P) = \\frac{|ax_A + by_A + cz_A + d|}{\\sqrt{a^2+b^2+c^2}}$.",
     explanation: "$d(A, P) = \\frac{|2(1) + 2(1) - 2 - 8|}{\\sqrt{2^2+2^2+(-1)^2}} = \\frac{|2+2-2-8|}{\\sqrt{9}} = \\frac{|-6|}{3} = \\frac{6}{3} = 2$."
@@ -115,10 +124,11 @@ window.EXERCISES_BY_CAT["geometrie"] = [
   {
     id: 50,
     category: "geometrie",
-    title: "Colinéarité de deux vecteurs (QCM)",
+    title: "Colinéarité de deux vecteurs",
     difficulty: "facile",
     type: "qcm",
-    question: "<b>Bac Polynésie 2021</b><br>Les vecteurs $\\vec{u}(2; -4; 6)$ and $\\vec{v}(-1; 2; -3)$ sont :",
+    source: "Bac Polynésie • Juin 2021 • Sujet 1 – Ex. 2",
+    question: "<b>Bac Polynésie – Juin 2021 – Sujet 1</b><br>Les vecteurs $\\vec{u}(2; -4; 6)$ et $\\vec{v}(-1; 2; -3)$ sont :",
     options: [
       "Colinéaires et de sens opposés",
       "Colinéaires et de même sens",
@@ -135,7 +145,8 @@ window.EXERCISES_BY_CAT["geometrie"] = [
     title: "Norme d'un vecteur",
     difficulty: "facile",
     type: "ouvert",
-    question: "<b>Bac Antilles 2023</b><br>Calculer la norme exacte du vecteur $\\vec{u}(2; 4; 4)$ dans un repère orthonormé.",
+    source: "Bac Antilles-Guyane • Juin 2023 • Sujet 2 – Ex. 1",
+    question: "<b>Bac Antilles-Guyane – Juin 2023 – Sujet 2</b><br>Calculer la norme exacte du vecteur $\\vec{u}(2; 4; 4)$ dans un repère orthonormé.",
     correctAnswer: "6",
     hint: "La formule de la norme est $\\|\\vec{u}\\| = \\sqrt{x^2+y^2+z^2}$.",
     explanation: "$\\|\\vec{u}\\| = \\sqrt{2^2 + 4^2 + 4^2} = \\sqrt{4 + 16 + 16} = \\sqrt{36} = 6$."
@@ -143,10 +154,11 @@ window.EXERCISES_BY_CAT["geometrie"] = [
   {
     id: 52,
     category: "geometrie",
-    title: "Projeté orthogonal (QCM)",
+    title: "Projeté orthogonal",
     difficulty: "difficile",
     type: "qcm",
-    question: "<b>Bac Métropole 2023</b><br>Le projeté orthogonal $H$ du point $M$ sur le plan $P$ est :",
+    source: "Bac Métropole • Juin 2023 • Sujet 2 – Ex. 4",
+    question: "<b>Bac Métropole – Juin 2023 – Sujet 2</b><br>Le projeté orthogonal $H$ du point $M$ sur le plan $P$ est :",
     options: [
       "L'unique point de $P$ tel que $\\vec{MH}$ soit un vecteur normal au plan $P$",
       "Le milieu de tout segment reliant $M$ à un point du plan $P$",
@@ -160,10 +172,11 @@ window.EXERCISES_BY_CAT["geometrie"] = [
   {
     id: 53,
     category: "geometrie",
-    title: "Vecteurs directeurs de plan (QCM)",
+    title: "Vecteurs directeurs de plan",
     difficulty: "moyen",
     type: "qcm",
-    question: "<b>Bac Amérique du Nord 2023</b><br>Soient $\\vec{u}$ and $\\vec{v}$ deux vecteurs directeurs d'un plan $P$. Ces vecteurs doivent être :",
+    source: "Bac Amérique du Nord • Juin 2023 • Sujet 2 – Ex. 2",
+    question: "<b>Bac Amérique du Nord – Juin 2023 – Sujet 2</b><br>Soient $\\vec{u}$ et $\\vec{v}$ deux vecteurs directeurs d'un plan $P$. Ces vecteurs doivent être :",
     options: [
       "Non colinéaires",
       "Orthogonaux",
@@ -180,7 +193,8 @@ window.EXERCISES_BY_CAT["geometrie"] = [
     title: "Angle de deux vecteurs",
     difficulty: "difficile",
     type: "ouvert",
-    question: "<b>Bac Réunion 2021</b><br>On considère les vecteurs $\\vec{u}(1; 1; 0)$ and $\\vec{v}(0; 1; 1)$ dans un repère orthonormé. <br> Déterminer la valeur exacte en degrés de l'angle $\\theta$ formé par ces deux vecteurs.",
+    source: "Bac La Réunion • Juin 2021 • Sujet 2 – Ex. 2",
+    question: "<b>Bac La Réunion – Juin 2021 – Sujet 2</b><br>On considère les vecteurs $\\vec{u}(1; 1; 0)$ et $\\vec{v}(0; 1; 1)$ dans un repère orthonormé. <br> Déterminer la valeur exacte en degrés de l'angle $\\theta$ formé par ces deux vecteurs.",
     correctAnswer: "60",
     hint: "Utilisez la relation $\\cos(\\theta) = \\frac{\\vec{u} \\cdot \\vec{v}}{\\|\\vec{u}\\| \\times \\|\\vec{v}\\|}$.",
     explanation: "$\\vec{u} \\cdot \\vec{v} = 1(0) + 1(1) + 0(1) = 1$. <br> $\\|\\vec{u}\\| = \\sqrt{2}$, $\\|\\vec{v}\\| = \\sqrt{2}$. <br> $\\cos(\\theta) = \\frac{1}{\\sqrt{2} \\times \\sqrt{2}} = \\frac{1}{2}$. <br> Donc $\\theta = 60^\\circ$."
@@ -188,10 +202,11 @@ window.EXERCISES_BY_CAT["geometrie"] = [
   {
     id: 55,
     category: "geometrie",
-    title: "Parallélisme de deux plans (QCM)",
+    title: "Parallélisme de deux plans",
     difficulty: "facile",
     type: "qcm",
-    question: "<b>Bac Polynésie 2022</b><br>Soient les plans $P_1 : 2x - y + 3z - 1 = 0$ and $P_2 : -4x + 2y - 6z + 5 = 0$. Ces plans sont :",
+    source: "Bac Polynésie • Juin 2022 • Sujet 1 – Ex. 3",
+    question: "<b>Bac Polynésie – Juin 2022 – Sujet 1</b><br>Soient les plans $P_1 : 2x - y + 3z - 1 = 0$ et $P_2 : -4x + 2y - 6z + 5 = 0$. Ces plans sont :",
     options: [
       "Parallèles",
       "Sécants et orthogonaux",
@@ -199,8 +214,8 @@ window.EXERCISES_BY_CAT["geometrie"] = [
       "Sécants non orthogonaux"
     ],
     correctAnswer: 0,
-    hint: "Comparez les coordonnées de leurs vecteurs normaux $\\vec{n_1}$ and $\\vec{n_2}$.",
-    explanation: "$\\vec{n_1}(2; -1; 3)$ and $\\vec{n_2}(-4; 2; -6)$. On observe que $\\vec{n_2} = -2\\vec{n_1}$, les vecteurs normaux sont colinéaires, donc les plans sont parallèles (et non confondus car les termes constants $-1 \\times (-2) \\neq 5$)."
+    hint: "Comparez les coordonnées de leurs vecteurs normaux $\\vec{n_1}$ et $\\vec{n_2}$.",
+    explanation: "$\\vec{n_1}(2; -1; 3)$ et $\\vec{n_2}(-4; 2; -6)$. On observe que $\\vec{n_2} = -2\\vec{n_1}$, les vecteurs normaux sont colinéaires, donc les plans sont parallèles (et non confondus car les termes constants $-1 \\times (-2) \\neq 5$)."
   },
   {
     id: 56,
@@ -208,7 +223,8 @@ window.EXERCISES_BY_CAT["geometrie"] = [
     title: "Point appartenant à une droite",
     difficulty: "facile",
     type: "ouvert",
-    question: "<b>Bac Centres Étrangers 2022</b><br>Soit la droite $D$ définie par $\\begin{cases} x = 1 + t \\\\ y = 2 - t \\\\ z = 3t \\end{cases}$ ($t \\in \\mathbb{R}$). <br> Quelle est la coordonnée $y$ du point de la droite $D$ ayant pour abscisse $x = 3$ ?",
+    source: "Bac Centres Étrangers • Juin 2022 • Sujet 2 – Ex. 1",
+    question: "<b>Bac Centres Étrangers – Juin 2022 – Sujet 2</b><br>Soit la droite $D$ définie par $\\begin{cases} x = 1 + t \\\\ y = 2 - t \\\\ z = 3t \\end{cases}$ ($t \\in \\mathbb{R}$). <br> Quelle est la coordonnée $y$ du point de la droite $D$ ayant pour abscisse $x = 3$ ?",
     correctAnswer: "0",
     hint: "Trouvez d'abord la valeur du paramètre $t$ correspondant à $x=3$, puis injectez-la dans l'équation de $y$.",
     explanation: "$x = 3 \\iff 1 + t = 3 \\iff t = 2$. <br> Pour $t=2$, on a $y = 2 - 2 = 0$."
@@ -219,7 +235,8 @@ window.EXERCISES_BY_CAT["geometrie"] = [
     title: "Volume d'un tétraèdre",
     difficulty: "difficile",
     type: "ouvert",
-    question: "<b>Bac Asie 2021</b><br>Calculer le volume d'un tétraèdre $ABCD$ sachant que la base $ABC$ est un triangle rectangle d'aire $9$ unités d'aire et que la hauteur relative au sommet $D$ mesure $4$ unités de longueur.",
+    source: "Bac Asie • Juin 2021 • Sujet 2 – Ex. 3",
+    question: "<b>Bac Asie – Juin 2021 – Sujet 2</b><br>Calculer le volume d'un tétraèdre $ABCD$ sachant que la base $ABC$ est un triangle rectangle d'aire $9$ unités d'aire et que la hauteur relative au sommet $D$ mesure $4$ unités de longueur.",
     correctAnswer: "12",
     hint: "Appliquez la formule générale du volume d'une pyramide/tétraèdre : $V = \\frac{1}{3} \\times \\text{Aire de la base} \\times \\text{Hauteur}$.",
     explanation: "$V = \\frac{1}{3} \\times \\text{Aire}(ABC) \\times h = \\frac{1}{3} \\times 9 \\times 4 = 3 \\times 4 = 12$."
@@ -227,10 +244,11 @@ window.EXERCISES_BY_CAT["geometrie"] = [
   {
     id: 58,
     category: "geometrie",
-    title: "Produit scalaire orthogonal (QCM)",
+    title: "Produit scalaire orthogonal",
     difficulty: "facile",
     type: "qcm",
-    question: "<b>Bac Antilles 2021</b><br>Si deux droites de l'espace sont perpendiculaires, alors :",
+    source: "Bac Antilles-Guyane • Juin 2021 • Sujet 2 – Ex. 1",
+    question: "<b>Bac Antilles-Guyane – Juin 2021 – Sujet 2</b><br>Si deux droites de l'espace sont perpendiculaires, alors :",
     options: [
       "Leurs vecteurs directeurs ont un produit scalaire nul",
       "Elles sont nécessairement coplanaires",
@@ -247,7 +265,8 @@ window.EXERCISES_BY_CAT["geometrie"] = [
     title: "Équation de plan contenant l'origine",
     difficulty: "facile",
     type: "ouvert",
-    question: "<b>Bac Métropole 2022</b><br>Soit le plan $P$ d'équation $3x - 4y + z + d = 0$. <br> Quelle doit être la valeur de $d$ pour que le plan $P$ passe par l'origine du repère $O(0; 0; 0)$ ?",
+    source: "Bac Métropole • Juin 2022 • Sujet 1 – Ex. 1",
+    question: "<b>Bac Métropole – Juin 2022 – Sujet 1</b><br>Soit le plan $P$ d'équation $3x - 4y + z + d = 0$. <br> Quelle doit être la valeur de $d$ pour que le plan $P$ passe par l'origine du repère $O(0; 0; 0)$ ?",
     correctAnswer: "0",
     hint: "Substituez les coordonnées de l'origine $(0; 0; 0)$ dans l'équation cartésienne.",
     explanation: "$3(0) - 4(0) + 0 + d = 0 \\iff d = 0$."
@@ -255,10 +274,11 @@ window.EXERCISES_BY_CAT["geometrie"] = [
   {
     id: 60,
     category: "geometrie",
-    title: "Plan parallèle à un plan coordonné (QCM)",
+    title: "Plan parallèle à un plan coordonné",
     difficulty: "facile",
     type: "qcm",
-    question: "<b>Bac Nouvelle-Calédonie 2022</b><br>L'équation cartésienne $z = 4$ définit dans l'espace :",
+    source: "Bac Nouvelle-Calédonie • Juin 2022 • Sujet 2 – Ex. 1",
+    question: "<b>Bac Nouvelle-Calédonie – Juin 2022 – Sujet 2</b><br>L'équation cartésienne $z = 4$ définit dans l'espace :",
     options: [
       "Un plan parallèle au plan $(O, \\vec{i}, \\vec{j})$",
       "Une droite parallèle à l'axe des côtes",
