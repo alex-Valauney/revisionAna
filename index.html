@@ -44,6 +44,12 @@
           </a>
         </li>
         <li class="nav-item">
+          <a class="nav-link" data-tab="exam">
+            <i data-lucide="timer"></i>
+            <span>Mode Examen</span>
+          </a>
+        </li>
+        <li class="nav-item">
           <a class="nav-link" data-tab="cheatsheet">
             <i data-lucide="book-open"></i>
             <span>Formulaire / Cours</span>
@@ -400,13 +406,220 @@
         </div>
       </section>
 
-    </main>
+      <!-- SECTION 5 : MODE EXAMEN (EXAM) -->
+      <section id="exam" class="tab-content">
+        <div id="exam-landing-view" class="exam-landing-container">
+          <div class="glass-card exam-intro-card">
+            <div class="exam-intro-header">
+              <div class="exam-intro-icon"><i data-lucide="award"></i></div>
+              <div class="exam-intro-title">
+                <h2>Mode Examen Réel</h2>
+                <p>Mettez-vous en conditions réelles du Baccalauréat Spécialité Mathématiques.</p>
+              </div>
+            </div>
+            
+            <div class="exam-rules-grid">
+              <div class="rule-card">
+                <i data-lucide="timer"></i>
+                <h4>4 Heures Chrono</h4>
+                <p>L'épreuve s'arrête automatiquement au bout de 4h00 de travail effectif.</p>
+              </div>
+              <div class="rule-card">
+                <i data-lucide="shuffle"></i>
+                <h4>Sujet non modifié</h4>
+                <p>Tirage au sort d'une épreuve réelle avec toutes ses questions d'origine.</p>
+              </div>
+              <div class="rule-card">
+                <i data-lucide="eye-off"></i>
+                <h4>Pas d'aide directe</h4>
+                <p>Pas d'indices ni de corrections immédiates. Votre travail est évalué à la fin.</p>
+              </div>
+              <div class="rule-card">
+                <i data-lucide="check-circle-2"></i>
+                <h4>Correction finale</h4>
+                <p>La note finale et les explications KaTeX détaillées sont fournies après soumission.</p>
+              </div>
+            </div>
+            
+            <div class="exam-action-wrapper">
+              <button id="btn-start-exam" class="btn btn-primary btn-exam-start">
+                Lancer une épreuve au hasard <i data-lucide="play-circle"></i>
+              </button>
+            </div>
+          </div>
+          
+          <div class="glass-card exam-history-card">
+            <h3><i data-lucide="history"></i> Historique des Épreuves</h3>
+            <div class="exam-history-table-wrapper">
+              <table class="exam-history-table">
+                <thead>
+                  <tr>
+                    <th>Date</th>
+                    <th>Épreuve</th>
+                    <th>Note / 20</th>
+                    <th>Temps passé</th>
+                    <th>Statut</th>
+                  </tr>
+                </thead>
+                <tbody id="exam-history-body">
+                  <tr>
+                    <td colspan="5" class="empty-history-text">Aucune épreuve réalisée pour le moment. Votre historique s'affichera ici.</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+          </div>
+        </div>
 
+        <div id="exam-active-view" class="exam-active-container" style="display: none;">
+          <div class="exam-header-bar glass-card">
+            <div class="exam-subject-info">
+              <i data-lucide="file-text"></i>
+              <h2 id="exam-active-title">Bac Spé Maths</h2>
+            </div>
+            <div class="exam-timer-widget" id="exam-timer-widget">
+              <i data-lucide="clock"></i>
+              <span id="exam-timer-val">04:00:00</span>
+              <div class="timer-progress-bg">
+                <div id="exam-timer-bar" class="timer-progress-fill"></div>
+              </div>
+            </div>
+            <button id="btn-finish-exam" class="btn btn-finish-exam">
+              Soumettre la copie <i data-lucide="check-square"></i>
+            </button>
+          </div>
+
+          <div class="exercise-layout">
+            <div class="glass-card exercise-main-card">
+              <div class="exercise-top-bar">
+                <div class="exercise-meta">
+                  <span id="exam-exercise-title" class="category-badge">Exercice 1</span>
+                  <span id="exam-question-number" class="difficulty-pill moyen">Question 1</span>
+                </div>
+                <h3 id="exam-question-title" style="margin: 0; font-size: 1.25rem;">Titre</h3>
+              </div>
+              
+              <div id="exam-question-text" class="question-text">
+                Énoncé...
+              </div>
+              
+              <div id="exam-answer-area" class="answer-area">
+                <!-- Injecté en JS -->
+              </div>
+
+              <div class="action-buttons">
+                <button id="btn-exam-prev" class="btn btn-primary">
+                  <i data-lucide="arrow-left"></i> Précédent
+                </button>
+                <button id="btn-exam-next" class="btn btn-primary">
+                  Suivant <i data-lucide="arrow-right"></i>
+                </button>
+              </div>
+            </div>
+
+            <div class="exercise-sidebar">
+              <div class="glass-card exercise-nav-card">
+                <h4>Avancement de l'épreuve</h4>
+                <div id="exam-status-grid" class="question-status-grid">
+                  <!-- Injecté en JS -->
+                </div>
+              </div>
+              
+              <div class="glass-card mini-scratchpad-card">
+                <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
+                  <h4 style="margin: 0;"><i data-lucide="edit-3" style="vertical-align: middle;"></i> Brouillon d'examen</h4>
+                  <div id="scratchpad-toolbar-exam" class="toolbar-group" style="gap: 0.4rem; align-items: center;">
+                    <div class="scratchpad-mode-selector">
+                      <button class="mode-btn active" data-mode="draw" title="Dessiner"><i data-lucide="pen-tool"></i></button>
+                      <button class="mode-btn" data-mode="text" title="Taper au clavier"><i data-lucide="keyboard"></i></button>
+                    </div>
+                    <div class="draw-tools" style="display: flex; gap: 0.4rem; align-items: center;">
+                      <button class="btn-eraser" style="background: none; border: none; color: var(--text-muted); cursor: pointer;" title="Gomme"><i data-lucide="eraser" style="width: 16px; height: 16px;"></i></button>
+                      <div class="color-dot white active" style="width: 12px; height: 12px;"></div>
+                      <div class="color-dot teal" style="width: 12px; height: 12px;"></div>
+                      <div class="color-dot pink" style="width: 12px; height: 12px;"></div>
+                    </div>
+                    <button class="btn-clear" style="background: none; border: none; color: var(--text-muted); cursor: pointer;" title="Tout effacer"><i data-lucide="trash-2" style="width: 16px; height: 16px;"></i></button>
+                  </div>
+                </div>
+                <div class="canvas-wrapper">
+                  <canvas id="exam-scratch-canvas"></canvas>
+                  <textarea id="exam-scratch-text" class="scratch-textarea" placeholder="Saisissez vos notes ou calculs au clavier ici..."></textarea>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+
+        <div id="exam-results-view" class="exam-results-container" style="display: none;">
+          <div class="glass-card exam-results-summary-card">
+            <div class="summary-layout">
+              <div class="score-circle-wrapper">
+                <div id="exam-score-circle" class="score-circle-neon">
+                  <span id="exam-score-val">--</span>
+                  <span class="score-max">/ 20</span>
+                </div>
+              </div>
+              <div class="summary-details">
+                <h2 id="exam-results-title">Correction Terminée</h2>
+                <p class="summary-intro" id="exam-results-subtitle">Votre note a été calculée sur 20.</p>
+                <div class="results-stats-row">
+                  <div class="stat-box">
+                    <span class="stat-label">Temps total</span>
+                    <span class="stat-value" id="exam-results-time">--</span>
+                  </div>
+                  <div class="stat-box">
+                    <span class="stat-label">Questions correctes</span>
+                    <span class="stat-value" id="exam-results-correct">--</span>
+                  </div>
+                  <div class="stat-box">
+                    <span class="stat-label">Statut</span>
+                    <span class="stat-value" id="exam-results-mention">--</span>
+                  </div>
+                </div>
+                <button id="btn-back-to-landing" class="btn btn-primary" style="margin-top: 1.5rem;">
+                  Retour aux examens <i data-lucide="arrow-left"></i>
+                </button>
+              </div>
+            </div>
+          </div>
+
+          <h3 class="section-title"><i data-lucide="check-square"></i> Correction détaillée de votre copie</h3>
+          <div id="exam-corrections-list" class="exam-corrections-list">
+            <!-- Injecté en JS -->
+          </div>
+        </div>
+      </section>
+
+    </main>
+  </div>
+
+  <!-- MODALE DE CONFIRMATION SOUMISSION EXAMEN -->
+  <div id="submit-modal-overlay" class="modal-overlay" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="modal-title">
+    <div class="modal-card glass-card">
+      <div class="modal-icon">
+        <i data-lucide="alert-triangle"></i>
+      </div>
+      <h3 id="modal-title">Soumettre votre copie ?</h3>
+      <p>Vous êtes sur le point de terminer l'épreuve et soumettre toutes vos réponses. Cette action est <strong>irréversible</strong>.</p>
+      <div id="modal-unanswered-info" style="display:none;" class="modal-warning-box">
+        <i data-lucide="info"></i>
+        <span id="modal-unanswered-text"></span>
+      </div>
+      <div class="modal-actions">
+        <button id="modal-btn-cancel" class="btn btn-outline">Continuer l'épreuve</button>
+        <button id="modal-btn-confirm" class="btn btn-finish-exam">
+          Soumettre définitivement <i data-lucide="check-square"></i>
+        </button>
+      </div>
+    </div>
   </div>
 
   <!-- Chargement des scripts -->
   <script src="exercises.js"></script>
+  <script src="exercises_exams.js"></script>
   <script src="app.js"></script>
+
   <script>
     // Initialiser les icônes Lucide dès le chargement
     document.addEventListener("DOMContentLoaded", () => {

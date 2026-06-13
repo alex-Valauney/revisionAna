@@ -12,6 +12,16 @@ document.addEventListener("DOMContentLoaded", () => {
     userSelection: null, // QCM selection index or open answer string
     isValidated: false,
     
+    // Etat du Mode Examen
+    exam: {
+      active: false,
+      subject: null,
+      flatQuestions: [],
+      answers: {},
+      timeLeft: 4 * 60 * 60,
+      currentIndex: 0,
+      timerInterval: null
+    },
     // Stats de progression (chargées depuis localStorage ou par défaut)
     stats: {
       completedExercises: {}, // Map d'ID d'exercices résolus: 'correct' ou 'wrong'
@@ -72,6 +82,8 @@ document.addEventListener("DOMContentLoaded", () => {
     } else if (tabId === "scratchpad") {
       // Redimensionner le canvas pour occuper tout l'espace disponible
       setTimeout(() => resizeCanvas("scratch-canvas"), 50);
+    } else if (tabId === "exam") {
+      renderExamView();
     }
 
     // Relancer le rendu des formules LaTeX pour l'onglet actif
@@ -797,6 +809,509 @@ document.addEventListener("DOMContentLoaded", () => {
       default: return cat;
     }
   }
+
+
+  // --- MODE EXAMEN LOGIQUE ---
+  function renderExamView() {
+    const landingView = document.getElementById("exam-landing-view");
+    const activeView = document.getElementById("exam-active-view");
+    const resultsView = document.getElementById("exam-results-view");
+
+    if (state.exam.active) {
+      landingView.style.display = "none";
+      activeView.style.display = "block";
+      resultsView.style.display = "none";
+      loadExamQuestion();
+    } else {
+      activeView.style.display = "none";
+      
+      // Si on a des résultats d'un examen juste terminé, on les affiche
+      if (document.getElementById("exam-results-view").getAttribute("data-just-finished") === "true") {
+        landingView.style.display = "none";
+        resultsView.style.display = "block";
+      } else {
+        landingView.style.display = "block";
+        resultsView.style.display = "none";
+        renderExamHistory();
+      }
+    }
+  }
+
+  function renderExamHistory() {
+    const historyBody = document.getElementById("exam-history-body");
+    historyBody.innerHTML = "";
+
+    const savedHistory = localStorage.getItem("spe_maths_bac_exam_history");
+    if (!savedHistory) {
+      historyBody.innerHTML = `
+        <tr>
+          <td colspan="5" class="empty-history-text">Aucune épreuve réalisée pour le moment. Votre historique s'affichera ici.</td>
+        </tr>
+      `;
+      return;
+    }
+
+    try {
+      const history = JSON.parse(savedHistory);
+      if (history.length === 0) {
+        historyBody.innerHTML = `
+          <tr>
+            <td colspan="5" class="empty-history-text">Aucune épreuve réalisée pour le moment. Votre historique s'affichera ici.</td>
+          </tr>
+        `;
+        return;
+      }
+
+      history.forEach(item => {
+        const row = document.createElement("tr");
+        let mentionClass = "wrong";
+        if (item.score >= 14) mentionClass = "correct";
+        else if (item.score >= 10) mentionClass = "warning"; // fallback warning class or dynamic text
+
+        row.innerHTML = `
+          <td>${item.date}</td>
+          <td>${item.subject}</td>
+          <td style="font-weight:700;">${item.score} / 20</td>
+          <td>${item.timeSpent}</td>
+          <td><span class="exam-correction-status ${mentionClass}">${item.status}</span></td>
+        `;
+        historyBody.appendChild(row);
+      });
+    } catch(e) {
+      historyBody.innerHTML = `<tr><td colspan="5" class="empty-history-text">Erreur de lecture de l'historique.</td></tr>`;
+    }
+  }
+
+  function startExam() {
+    if (!window.EXAMS_DATA || window.EXAMS_DATA.length === 0) {
+      alert("Erreur: Les données d'examen sont introuvables.");
+      return;
+    }
+
+    // Tirage au sort d'une épreuve
+    const randomIndex = Math.floor(Math.random() * window.EXAMS_DATA.length);
+    const selectedExam = window.EXAMS_DATA[randomIndex];
+
+    // Initialiser l'état de l'examen
+    state.exam.active = true;
+    state.exam.subject = selectedExam;
+    state.exam.flatQuestions = [];
+    state.exam.answers = {};
+    state.exam.timeLeft = 4 * 60 * 60; // 4h00
+    state.exam.currentIndex = 0;
+
+    // Aplatir les questions des exercices pour la navigation linéaire
+    selectedExam.exercises.forEach((exVal, exIdx) => {
+      exVal.questions.forEach((qVal, qIdx) => {
+        state.exam.flatQuestions.push({
+          ...qVal,
+          exerciseTitle: exVal.title,
+          indexInExercise: qIdx + 1,
+          totalInExercise: exVal.questions.length
+        });
+      });
+    });
+
+    document.getElementById("exam-active-title").textContent = selectedExam.title;
+    document.getElementById("exam-results-view").setAttribute("data-just-finished", "false");
+
+    // Lancement du timer
+    if (state.exam.timerInterval) clearInterval(state.exam.timerInterval);
+    
+    updateTimerUI();
+    state.exam.timerInterval = setInterval(() => {
+      state.exam.timeLeft--;
+      updateTimerUI();
+
+      if (state.exam.timeLeft <= 0) {
+        clearInterval(state.exam.timerInterval);
+        alert("Temps écoulé ! Votre copie va être soumise automatiquement.");
+        submitExam(true);
+      }
+    }, 1000);
+
+    // Initialisation du brouillon examen
+    initScratchpad("exam-scratch-canvas", "scratchpad-toolbar-exam");
+
+    renderExamView();
+  }
+
+  function updateTimerUI() {
+    const hours = Math.floor(state.exam.timeLeft / 3600);
+    const minutes = Math.floor((state.exam.timeLeft % 3600) / 60);
+    const seconds = state.exam.timeLeft % 60;
+
+    const formattedTime = 
+      String(hours).padStart(2, '0') + ":" + 
+      String(minutes).padStart(2, '0') + ":" + 
+      String(seconds).padStart(2, '0');
+
+    const timerVal = document.getElementById("exam-timer-val");
+    const timerWidget = document.getElementById("exam-timer-widget");
+    const timerBar = document.getElementById("exam-timer-bar");
+
+    if (timerVal) timerVal.textContent = formattedTime;
+
+    const percentLeft = (state.exam.timeLeft / (4 * 3600)) * 100;
+    if (timerBar) timerBar.style.width = percentLeft + "%";
+
+    // Alerte < 15 min (900 sec)
+    if (state.exam.timeLeft <= 900) {
+      if (timerWidget) timerWidget.classList.add("timer-alert");
+    } else {
+      if (timerWidget) timerWidget.classList.remove("timer-alert");
+    }
+  }
+
+  function loadExamQuestion() {
+    if (state.exam.flatQuestions.length === 0) return;
+
+    const qIdx = state.exam.currentIndex;
+    const q = state.exam.flatQuestions[qIdx];
+    const userAns = state.exam.answers[qIdx];
+
+    // Rendre l'en-tête de la question
+    document.getElementById("exam-exercise-title").textContent = q.exerciseTitle;
+    document.getElementById("exam-question-number").textContent = "Question " + (qIdx + 1) + " / " + state.exam.flatQuestions.length;
+    document.getElementById("exam-question-title").textContent = "Question " + q.indexInExercise + " sur " + q.totalInExercise;
+    
+    const qText = document.getElementById("exam-question-text");
+    qText.innerHTML = q.question;
+
+    const answerArea = document.getElementById("exam-answer-area");
+    answerArea.innerHTML = "";
+
+    if (q.type === "qcm") {
+      const grid = document.createElement("div");
+      grid.className = "options-grid";
+      
+      q.options.forEach((opt, idx) => {
+        const btn = document.createElement("button");
+        btn.className = "option-button";
+        if (userAns === idx) btn.classList.add("selected");
+        
+        btn.innerHTML = `
+          <span class="option-check"></span>
+          <span class="option-label">${opt}</span>
+        `;
+        
+        btn.addEventListener("click", () => {
+          grid.querySelectorAll(".option-button").forEach(b => b.classList.remove("selected"));
+          btn.classList.add("selected");
+          state.exam.answers[qIdx] = idx;
+          renderExamStatusGrid();
+        });
+        grid.appendChild(btn);
+      });
+      answerArea.appendChild(grid);
+    } else {
+      const group = document.createElement("div");
+      group.className = "input-group";
+      
+      const input = document.createElement("input");
+      input.type = "text";
+      input.className = "text-input";
+      input.placeholder = "Saisissez votre réponse...";
+      if (userAns !== undefined) input.value = userAns;
+      
+      input.addEventListener("input", (e) => {
+        state.exam.answers[qIdx] = e.target.value.trim();
+        renderExamStatusGrid();
+      });
+
+      group.appendChild(input);
+      answerArea.appendChild(group);
+    }
+
+    // Boutons de navigation
+    document.getElementById("btn-exam-prev").disabled = (qIdx === 0);
+    const nextBtn = document.getElementById("btn-exam-next");
+    if (qIdx === state.exam.flatQuestions.length - 1) {
+      nextBtn.innerHTML = 'Terminer <i data-lucide="check-square"></i>';
+    } else {
+      nextBtn.innerHTML = 'Suivant <i data-lucide="arrow-right"></i>';
+    }
+
+    renderExamStatusGrid();
+    renderMath(document.getElementById("exam-active-view"));
+
+    if (typeof lucide !== "undefined") {
+      lucide.createIcons();
+    }
+
+    // Redimensionner le mini brouillon de l'examen
+    setTimeout(() => resizeCanvas("exam-scratch-canvas"), 50);
+  }
+
+  function renderExamStatusGrid() {
+    const grid = document.getElementById("exam-status-grid");
+    grid.innerHTML = "";
+
+    state.exam.flatQuestions.forEach((q, idx) => {
+      const dot = document.createElement("div");
+      dot.className = "status-dot";
+      if (idx === state.exam.currentIndex) dot.classList.add("active");
+      
+      // Si répondu
+      const ans = state.exam.answers[idx];
+      if (ans !== undefined && ans !== "") {
+        dot.classList.add("answered");
+      }
+
+      dot.textContent = idx + 1;
+      dot.addEventListener("click", () => {
+        state.exam.currentIndex = idx;
+        loadExamQuestion();
+      });
+
+      grid.appendChild(dot);
+    });
+  }
+
+  // Affiche la modale de confirmation de soumission
+  function showSubmitModal() {
+    const overlay = document.getElementById("submit-modal-overlay");
+    if (!overlay) { _doSubmitExam(); return; }
+
+    // Calculer les questions non répondues
+    const total = state.exam.flatQuestions.length;
+    let unanswered = 0;
+    state.exam.flatQuestions.forEach((q, idx) => {
+      const ans = state.exam.answers[idx];
+      if (ans === undefined || ans === "") unanswered++;
+    });
+
+    const infoBox = document.getElementById("modal-unanswered-info");
+    const infoText = document.getElementById("modal-unanswered-text");
+    if (unanswered > 0) {
+      infoBox.style.display = "flex";
+      infoText.textContent = unanswered + " question(s) sur " + total + " sans réponse. Elles seront comptées comme incorrectes.";
+    } else {
+      infoBox.style.display = "none";
+    }
+
+    overlay.style.display = "flex";
+    if (typeof lucide !== "undefined") lucide.createIcons();
+  }
+
+  function hideSubmitModal() {
+    const overlay = document.getElementById("submit-modal-overlay");
+    if (overlay) overlay.style.display = "none";
+  }
+
+  function submitExam(isForced) {
+    if (!isForced) {
+      showSubmitModal();
+      return;
+    }
+    _doSubmitExam();
+  }
+
+  function _doSubmitExam() {
+    hideSubmitModal();
+
+    if (state.exam.timerInterval) clearInterval(state.exam.timerInterval);
+    state.exam.active = false;
+
+    // Calcul des statistiques
+    const totalQuestions = state.exam.flatQuestions.length;
+    let correctCount = 0;
+
+    state.exam.flatQuestions.forEach((q, idx) => {
+      const userAns = state.exam.answers[idx];
+      if (userAns !== undefined) {
+        if (q.type === "qcm") {
+          if (userAns === q.correctAnswer) correctCount++;
+        } else {
+          const cleanUser = String(userAns).toLowerCase().replace(/\s+/g, '');
+          const cleanCorrect = String(q.correctAnswer).toLowerCase().replace(/\s+/g, '');
+          if (cleanUser === cleanCorrect) correctCount++;
+        }
+      }
+    });
+
+    const finalScore = Math.round((correctCount / totalQuestions) * 20 * 10) / 10;
+    
+    // Temps écoulé
+    const timeSpentSeconds = (4 * 3600) - state.exam.timeLeft;
+    const spentHours = Math.floor(timeSpentSeconds / 3600);
+    const spentMinutes = Math.floor((timeSpentSeconds % 3600) / 60);
+    const spentSeconds = timeSpentSeconds % 60;
+
+    let timeSpentStr = "";
+    if (spentHours > 0) timeSpentStr += spentHours + "h ";
+    if (spentMinutes > 0) timeSpentStr += spentMinutes + "m ";
+    timeSpentStr += spentSeconds + "s";
+
+    // Mention
+    let mention = "Insuffisant";
+    let scoreClass = "score-red";
+    if (finalScore >= 16) {
+      mention = "Très Bien";
+      scoreClass = "score-green";
+    } else if (finalScore >= 14) {
+      mention = "Bien";
+      scoreClass = "score-green";
+    } else if (finalScore >= 12) {
+      mention = "Assez Bien";
+      scoreClass = "score-yellow";
+    } else if (finalScore >= 10) {
+      mention = "Passable";
+      scoreClass = "score-yellow";
+    }
+
+    // Affichage du score
+    document.getElementById("exam-score-val").textContent = finalScore;
+    const scoreCircle = document.getElementById("exam-score-circle");
+    scoreCircle.className = "score-circle-neon " + scoreClass;
+
+    document.getElementById("exam-results-time").textContent = timeSpentStr;
+    document.getElementById("exam-results-correct").textContent = correctCount + " / " + totalQuestions;
+    document.getElementById("exam-results-mention").textContent = mention;
+
+    // Génération de la correction détaillée
+    const correctionsList = document.getElementById("exam-corrections-list");
+    correctionsList.innerHTML = "";
+
+    state.exam.flatQuestions.forEach((q, idx) => {
+      const userAns = state.exam.answers[idx];
+      let isCorrect = false;
+      let userDisplayStr = "Aucune réponse fournie";
+
+      if (userAns !== undefined && userAns !== "") {
+        if (q.type === "qcm") {
+          isCorrect = (userAns === q.correctAnswer);
+          userDisplayStr = q.options[userAns];
+        } else {
+          const cleanUser = String(userAns).toLowerCase().replace(/\s+/g, '');
+          const cleanCorrect = String(q.correctAnswer).toLowerCase().replace(/\s+/g, '');
+          isCorrect = (cleanUser === cleanCorrect);
+          userDisplayStr = "$" + userAns + "$";
+        }
+      }
+
+      const itemCard = document.createElement("div");
+      itemCard.className = "glass-card exam-correction-item " + (isCorrect ? "correct" : "wrong");
+
+      const correctDisplayStr = q.type === "qcm" ? q.options[q.correctAnswer] : "$" + q.correctAnswer + "$";
+
+      itemCard.innerHTML = `
+        <div class="exam-correction-header">
+          <span class="category-badge">${q.exerciseTitle}</span>
+          <span class="exam-correction-status ${isCorrect ? 'correct' : 'wrong'}">
+            ${isCorrect ? '<i data-lucide="check-circle-2"></i> Correct' : '<i data-lucide="x-circle"></i> Incorrect'}
+          </span>
+        </div>
+        <div class="question-text" style="margin-bottom:1rem;">
+          ${q.question}
+        </div>
+        <div class="exam-correction-ans">
+          <p><b>Votre réponse :</b> <span style="color:${isCorrect ? 'var(--neon-green)' : 'var(--neon-red)'};">${userDisplayStr}</span></p>
+          <p><b>Réponse attendue :</b> <span style="color:var(--neon-green);">${correctDisplayStr}</span></p>
+        </div>
+        <div class="correction-box" style="display:block; margin-top:1rem;">
+          <h4><i data-lucide="info"></i> Correction détaillée</h4>
+          <div style="font-size:0.9rem; line-height:1.6; margin-top:0.5rem; color:var(--text-secondary);">
+            ${q.explanation}
+          </div>
+        </div>
+      `;
+
+      correctionsList.appendChild(itemCard);
+    });
+
+    // Enregistrement dans l'historique local
+    const historyEntry = {
+      date: new Date().toLocaleDateString("fr-FR"),
+      subject: state.exam.subject.title,
+      score: finalScore,
+      timeSpent: timeSpentStr,
+      status: mention
+    };
+
+    let historyList = [];
+    const savedHistory = localStorage.getItem("spe_maths_bac_exam_history");
+    if (savedHistory) {
+      try {
+        historyList = JSON.parse(savedHistory);
+      } catch (e) {}
+    }
+    historyList.unshift(historyEntry);
+    
+    // Garder seulement les 10 dernières épreuves
+    if (historyList.length > 10) historyList.pop();
+
+    localStorage.setItem("spe_maths_bac_exam_history", JSON.stringify(historyList));
+
+    // Signaler qu'on vient de terminer l'examen pour forcer l'affichage des résultats
+    document.getElementById("exam-results-view").setAttribute("data-just-finished", "true");
+
+    renderExamView();
+    renderMath(correctionsList);
+
+    if (typeof lucide !== "undefined") {
+      lucide.createIcons();
+    }
+  }
+
+  // Brancher les boutons de la modale de confirmation
+  const modalCancelBtn = document.getElementById("modal-btn-cancel");
+  if (modalCancelBtn) modalCancelBtn.addEventListener("click", hideSubmitModal);
+
+  const modalConfirmBtn = document.getElementById("modal-btn-confirm");
+  if (modalConfirmBtn) modalConfirmBtn.addEventListener("click", () => { _doSubmitExam(); });
+
+  // Fermer la modale en cliquant sur l'overlay
+  const modalOverlay = document.getElementById("submit-modal-overlay");
+  if (modalOverlay) {
+    modalOverlay.addEventListener("click", (e) => {
+      if (e.target === modalOverlay) hideSubmitModal();
+    });
+  }
+
+  // Brancher les événements du mode examen
+  const startExamBtn = document.getElementById("btn-start-exam");
+  if (startExamBtn) {
+    startExamBtn.addEventListener("click", startExam);
+  }
+
+  const prevExamBtn = document.getElementById("btn-exam-prev");
+  if (prevExamBtn) {
+    prevExamBtn.addEventListener("click", () => {
+      if (state.exam.currentIndex > 0) {
+        state.exam.currentIndex--;
+        loadExamQuestion();
+      }
+    });
+  }
+
+  const nextExamBtn = document.getElementById("btn-exam-next");
+  if (nextExamBtn) {
+    nextExamBtn.addEventListener("click", () => {
+      if (state.exam.currentIndex < state.exam.flatQuestions.length - 1) {
+        state.exam.currentIndex++;
+        loadExamQuestion();
+      } else {
+        submitExam(false);
+      }
+    });
+  }
+
+  const finishExamBtn = document.getElementById("btn-finish-exam");
+  if (finishExamBtn) {
+    finishExamBtn.addEventListener("click", () => {
+      submitExam(false);
+    });
+  }
+
+  const backToLandingBtn = document.getElementById("btn-back-to-landing");
+  if (backToLandingBtn) {
+    backToLandingBtn.addEventListener("click", () => {
+      document.getElementById("exam-results-view").setAttribute("data-just-finished", "false");
+      renderExamView();
+    });
+  }
+
 
   // Failsafe pour s'assurer du rendu initial après chargement de tous les scripts
   window.addEventListener("load", () => {
