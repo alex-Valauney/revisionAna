@@ -99,6 +99,13 @@ document.addEventListener("DOMContentLoaded", () => {
     // Actions spécifiques lors du changement d'onglet
     if (tabId === "dashboard") {
       renderDashboard();
+    } else if (tabId === "exercises") {
+      if (state.activeExercises.length === 0) {
+        startChapter(state.selectedCategory);
+      } else {
+        // Redimensionner le mini canvas si déjà actif
+        setTimeout(() => resizeCanvas("mini-scratch-canvas"), 50);
+      }
     } else if (tabId === "scratchpad") {
       // Redimensionner le canvas pour occuper tout l'espace disponible
       setTimeout(() => resizeCanvas("scratch-canvas"), 50);
@@ -153,10 +160,56 @@ document.addEventListener("DOMContentLoaded", () => {
     saveStats();
   }
 
+  // --- UTILITAIRES DE CATEGORIES ET CHARGEMENT DYNAMIQUE ---
+  function getCategoryById(id) {
+    const nid = parseInt(id);
+    if (nid >= 1 && nid <= 20) return "suites";
+    if (nid >= 21 && nid <= 40) return "fonctions";
+    if (nid >= 41 && nid <= 60) return "geometrie";
+    if (nid >= 61 && nid <= 80) return "probabilites";
+    if (nid >= 81 && nid <= 100) return "integration";
+    return "";
+  }
+
+  const loadedScripts = {};
+
+  function loadChapterExercises(category, callback) {
+    if (window.EXERCISES_BY_CAT && window.EXERCISES_BY_CAT[category]) {
+      callback();
+      return;
+    }
+
+    if (loadedScripts[category]) {
+      const interval = setInterval(() => {
+        if (window.EXERCISES_BY_CAT && window.EXERCISES_BY_CAT[category]) {
+          clearInterval(interval);
+          callback();
+        }
+      }, 50);
+      return;
+    }
+
+    loadedScripts[category] = true;
+    window.debugLog(`Chargement du chapitre ${category}...`, "info");
+
+    const script = document.createElement("script");
+    script.src = `exercises_${category}.js`;
+    script.async = true;
+    script.onload = () => {
+      window.debugLog(`Chapitre ${category} chargé.`, "info");
+      callback();
+    };
+    script.onerror = () => {
+      window.debugLog(`Erreur de chargement pour ${category}.`, "error");
+      loadedScripts[category] = false;
+    };
+    document.body.appendChild(script);
+  }
+
   // --- RENDU DU DASHBOARD ---
   function renderDashboard() {
     // Calcul des statistiques globales
-    const totalCount = window.EXERCISES_DATA.length;
+    const totalCount = 100;
     const completedList = Object.keys(state.stats.completedExercises);
     const solvedCount = completedList.length;
     
@@ -174,10 +227,12 @@ document.addEventListener("DOMContentLoaded", () => {
     const chapters = ["suites", "fonctions", "geometrie", "probabilites", "integration"];
     
     chapters.forEach(cat => {
-      const catExs = window.EXERCISES_DATA.filter(ex => ex.category === cat);
-      const catTotal = catExs.length;
+      const catTotal = 20; // 20 questions par chapitre
       
-      const catSolved = catExs.filter(ex => state.stats.completedExercises[ex.id] === 'correct').length;
+      const catSolved = Object.keys(state.stats.completedExercises).filter(id => {
+        return getCategoryById(id) === cat && state.stats.completedExercises[id] === 'correct';
+      }).length;
+      
       const progressPercent = catTotal > 0 ? Math.round((catSolved / catTotal) * 100) : 0;
       
       // Update DOM elements
@@ -205,14 +260,17 @@ document.addEventListener("DOMContentLoaded", () => {
   // --- CHARGEMENT D'UN CHAPITRE ---
   function startChapter(category) {
     state.selectedCategory = category;
-    state.activeExercises = window.EXERCISES_DATA.filter(ex => ex.category === category);
-    state.currentExerciseIndex = 0;
     
-    // Aller à l'onglet exercice
-    switchTab("exercises");
-    
-    // Charger la première question
-    loadExercise();
+    loadChapterExercises(category, () => {
+      state.activeExercises = window.EXERCISES_BY_CAT[category] || [];
+      state.currentExerciseIndex = 0;
+      
+      // Aller à l'onglet exercice
+      switchTab("exercises");
+      
+      // Charger la première question
+      loadExercise();
+    });
   }
 
   // --- RENDU ET GESTION DES EXERCICES ---
