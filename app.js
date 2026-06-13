@@ -1,43 +1,6 @@
 // --- APPLICATION DE REVISION SPE MATHS ---
 
-// Debug on-screen console
-(function() {
-  const logDiv = document.createElement("div");
-  logDiv.id = "debug-console";
-  logDiv.style.position = "fixed";
-  logDiv.style.bottom = "0";
-  logDiv.style.left = "0";
-  logDiv.style.width = "100%";
-  logDiv.style.maxHeight = "120px";
-  logDiv.style.overflowY = "auto";
-  logDiv.style.backgroundColor = "rgba(0, 0, 0, 0.9)";
-  logDiv.style.color = "#00f5d4";
-  logDiv.style.fontFamily = "monospace";
-  logDiv.style.fontSize = "11px";
-  logDiv.style.padding = "8px";
-  logDiv.style.zIndex = "10000";
-  logDiv.style.borderTop = "2px solid #9d4edd";
-  
-  function log(msg, type = "info") {
-    const p = document.createElement("p");
-    p.style.margin = "0";
-    p.style.color = type === "error" ? "#ff007f" : "#00f5d4";
-    p.textContent = `[${type.toUpperCase()}] ${msg}`;
-    logDiv.appendChild(p);
-    logDiv.scrollTop = logDiv.scrollHeight;
-  }
-  
-  window.addEventListener("DOMContentLoaded", () => {
-    document.body.appendChild(logDiv);
-  });
 
-  window.addEventListener("error", (e) => {
-    log(`${e.message} at ${e.filename}:${e.lineno}`, "error");
-  });
-
-  // Export globally
-  window.debugLog = log;
-})();
 
 document.addEventListener("DOMContentLoaded", () => {
   // --- ETAT DE L'APPLICATION ---
@@ -190,17 +153,14 @@ document.addEventListener("DOMContentLoaded", () => {
     }
 
     loadedScripts[category] = true;
-    window.debugLog(`Chargement du chapitre ${category}...`, "info");
 
     const script = document.createElement("script");
     script.src = `exercises_${category}.js`;
     script.async = true;
     script.onload = () => {
-      window.debugLog(`Chapitre ${category} chargé.`, "info");
       callback();
     };
     script.onerror = () => {
-      window.debugLog(`Erreur de chargement pour ${category}.`, "error");
       loadedScripts[category] = false;
     };
     document.body.appendChild(script);
