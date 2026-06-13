@@ -560,17 +560,56 @@ document.addEventListener("DOMContentLoaded", () => {
     
     const ctx = canvas.getContext("2d");
     const toolbar = document.getElementById(toolbarId);
+    const textareaId = canvasId.replace("-canvas", "-text");
+    const textarea = document.getElementById(textareaId);
     
     let isDrawing = false;
     let color = "#ffffff";
     let brushSize = 3;
+    let activeMode = "draw"; // "draw" ou "text"
     
     // Coordonnées précédentes
     let lastX = 0;
     let lastY = 0;
 
-    // Relier les outils de la barre
+    // Gérer les boutons de sélection de mode (Dessin vs Clavier)
     if (toolbar) {
+      const modeSelector = toolbar.querySelector(".scratchpad-mode-selector");
+      const drawTools = toolbar.querySelector(".draw-tools");
+      
+      if (modeSelector) {
+        const modeBtns = modeSelector.querySelectorAll(".mode-btn");
+        modeBtns.forEach(btn => {
+          btn.addEventListener("click", () => {
+            modeBtns.forEach(b => b.classList.remove("active"));
+            btn.classList.add("active");
+            
+            activeMode = btn.getAttribute("data-mode");
+            
+            if (activeMode === "text") {
+              canvas.style.display = "none";
+              if (textarea) {
+                textarea.style.display = "block";
+                textarea.focus();
+              }
+              if (drawTools) {
+                drawTools.style.display = "none";
+              }
+            } else {
+              canvas.style.display = "block";
+              if (textarea) {
+                textarea.style.display = "none";
+              }
+              if (drawTools) {
+                drawTools.style.display = "flex";
+              }
+              // Réajuster la taille après affichage
+              resizeCanvas(canvasId);
+            }
+          });
+        });
+      }
+
       // Couleurs
       toolbar.querySelectorAll(".color-dot").forEach(dot => {
         dot.addEventListener("click", () => {
@@ -602,7 +641,11 @@ document.addEventListener("DOMContentLoaded", () => {
       const clearBtn = toolbar.querySelector(".btn-clear");
       if (clearBtn) {
         clearBtn.addEventListener("click", () => {
-          ctx.clearRect(0, 0, canvas.width, canvas.height);
+          if (activeMode === "text") {
+            if (textarea) textarea.value = "";
+          } else {
+            ctx.clearRect(0, 0, canvas.width, canvas.height);
+          }
         });
       }
 
@@ -618,6 +661,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Gestion du dessin (Souris)
     canvas.addEventListener("mousedown", (e) => {
+      if (activeMode !== "draw") return;
       isDrawing = true;
       const coords = getCanvasCoords(e, canvas);
       lastX = coords.x;
@@ -625,7 +669,7 @@ document.addEventListener("DOMContentLoaded", () => {
     });
 
     canvas.addEventListener("mousemove", (e) => {
-      if (!isDrawing) return;
+      if (!isDrawing || activeMode !== "draw") return;
       const coords = getCanvasCoords(e, canvas);
       draw(lastX, lastY, coords.x, coords.y);
       lastX = coords.x;
@@ -637,6 +681,7 @@ document.addEventListener("DOMContentLoaded", () => {
 
     // Gestion du dessin (Tactile/Mobile)
     canvas.addEventListener("touchstart", (e) => {
+      if (activeMode !== "draw") return;
       isDrawing = true;
       const coords = getCanvasCoords(e.touches[0], canvas);
       lastX = coords.x;
@@ -645,7 +690,7 @@ document.addEventListener("DOMContentLoaded", () => {
     }, { passive: false });
 
     canvas.addEventListener("touchmove", (e) => {
-      if (!isDrawing) return;
+      if (!isDrawing || activeMode !== "draw") return;
       const coords = getCanvasCoords(e.touches[0], canvas);
       draw(lastX, lastY, coords.x, coords.y);
       lastX = coords.x;
@@ -683,7 +728,7 @@ document.addEventListener("DOMContentLoaded", () => {
   // Ajustement de taille dynamique
   function resizeCanvas(canvasId) {
     const canvas = document.getElementById(canvasId);
-    if (!canvas) return;
+    if (!canvas || canvas.style.display === "none") return;
     
     const container = canvas.parentElement;
     

@@ -302,18 +302,28 @@
             
             <!-- Brouillon rapide -->
             <div class="glass-card mini-scratchpad-card">
-              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem; flex-wrap: wrap; gap: 0.5rem;">
                 <h4 style="margin: 0;"><i data-lucide="edit-3" style="vertical-align: middle;"></i> Brouillon rapide</h4>
-                <div id="scratchpad-toolbar-mini" class="toolbar-group" style="gap: 0.4rem;">
+                <div id="scratchpad-toolbar-mini" class="toolbar-group" style="gap: 0.4rem; align-items: center;">
+                  <!-- Sélecteur de mode -->
+                  <div class="scratchpad-mode-selector">
+                    <button class="mode-btn active" data-mode="draw" title="Dessiner"><i data-lucide="pen-tool"></i></button>
+                    <button class="mode-btn" data-mode="text" title="Taper au clavier"><i data-lucide="keyboard"></i></button>
+                  </div>
+                  <!-- Outils de dessin -->
+                  <div class="draw-tools" style="display: flex; gap: 0.4rem; align-items: center;">
+                    <button class="btn-eraser" style="background: none; border: none; color: var(--text-muted); cursor: pointer;" title="Gomme"><i data-lucide="eraser" style="width: 16px; height: 16px;"></i></button>
+                    <div class="color-dot white active" style="width: 12px; height: 12px;"></div>
+                    <div class="color-dot teal" style="width: 12px; height: 12px;"></div>
+                    <div class="color-dot pink" style="width: 12px; height: 12px;"></div>
+                  </div>
+                  <!-- Action commune -->
                   <button class="btn-clear" style="background: none; border: none; color: var(--text-muted); cursor: pointer;" title="Tout effacer"><i data-lucide="trash-2" style="width: 16px; height: 16px;"></i></button>
-                  <button class="btn-eraser" style="background: none; border: none; color: var(--text-muted); cursor: pointer;" title="Gomme"><i data-lucide="eraser" style="width: 16px; height: 16px;"></i></button>
-                  <div class="color-dot white active" style="width: 12px; height: 12px;"></div>
-                  <div class="color-dot teal" style="width: 12px; height: 12px;"></div>
-                  <div class="color-dot pink" style="width: 12px; height: 12px;"></div>
                 </div>
               </div>
               <div class="canvas-wrapper">
                 <canvas id="mini-scratch-canvas"></canvas>
+                <textarea id="mini-scratch-text" class="scratch-textarea" placeholder="Saisissez vos notes ou calculs au clavier ici..."></textarea>
               </div>
             </div>
           </div>
@@ -341,23 +351,37 @@
           <!-- Barre d'outils du Brouillon -->
           <div id="scratchpad-toolbar-main" class="scratchpad-toolbar">
             <div class="toolbar-group">
-              <span class="tool-label">Couleurs :</span>
-              <div class="color-dot white active"></div>
-              <div class="color-dot teal"></div>
-              <div class="color-dot purple"></div>
-              <div class="color-dot pink"></div>
-              <div class="color-dot yellow"></div>
+              <span class="tool-label">Mode :</span>
+              <div class="scratchpad-mode-selector">
+                <button class="mode-btn active" data-mode="draw" title="Dessiner"><i data-lucide="pen-tool"></i> Dessin</button>
+                <button class="mode-btn" data-mode="text" title="Écrire au clavier"><i data-lucide="keyboard"></i> Clavier</button>
+              </div>
+            </div>
+
+            <!-- Outils de dessin -->
+            <div class="draw-tools" style="display: flex; gap: 1.5rem; align-items: center;">
+              <div class="toolbar-group">
+                <span class="tool-label">Couleurs :</span>
+                <div class="color-dot white active"></div>
+                <div class="color-dot teal"></div>
+                <div class="color-dot purple"></div>
+                <div class="color-dot pink"></div>
+                <div class="color-dot yellow"></div>
+              </div>
+              
+              <div class="toolbar-group">
+                <span class="tool-label">Taille :</span>
+                <input type="range" class="brush-size-input" min="1" max="15" value="3">
+              </div>
+              
+              <div class="toolbar-group">
+                <button class="btn btn-outline btn-eraser" style="width: auto; padding: 0.5rem 1rem;">
+                  Gomme <i data-lucide="eraser"></i>
+                </button>
+              </div>
             </div>
             
             <div class="toolbar-group">
-              <span class="tool-label">Taille :</span>
-              <input type="range" class="brush-size-input" min="1" max="15" value="3">
-            </div>
-            
-            <div class="toolbar-group">
-              <button class="btn btn-outline btn-eraser" style="width: auto; padding: 0.5rem 1rem;">
-                Gomme <i data-lucide="eraser"></i>
-              </button>
               <button class="btn btn-primary btn-clear" style="width: auto; padding: 0.5rem 1rem; background: linear-gradient(135deg, var(--neon-red), #b91c1c);">
                 Effacer <i data-lucide="trash-2"></i>
               </button>
@@ -367,6 +391,7 @@
           <!-- Zone du Canvas -->
           <div class="canvas-wrapper">
             <canvas id="scratch-canvas"></canvas>
+            <textarea id="scratch-text" class="scratch-textarea" placeholder="Saisissez vos notes ou calculs au clavier ici..."></textarea>
           </div>
         </div>
       </section>
