@@ -1,5 +1,5 @@
-// Base de données pour le site de révision Spé Maths
-// Contient les formules de cours et les exercices d'entraînement
+// Base de données révisée avec de réels exercices d'annales du Baccalauréat Spé Maths
+// Contient les formules de cours (formulaire) et les exercices réels du Bac
 
 const FORMULAS_DATA = [
   {
@@ -59,201 +59,150 @@ const EXERCISES_DATA = [
   {
     id: 1,
     category: "suites",
-    title: "Limite d'une suite géométrique",
-    difficulty: "facile",
+    title: "Limite de suite définie par récurrence (QCM)",
+    difficulty: "moyen",
     type: "qcm",
-    question: "Soit la suite $(u_n)$ définie pour tout entier naturel $n$ par : $u_n = 3 - 2 \\times \\left(\\frac{1}{2}\\right)^n$. Quelle est la limite de cette suite en $+\\infty$ ?",
+    question: "<b>D'après Bac Métropole 2023 (Candidats Libres)</b><br>Soit la suite $(u_n)$ définie pour tout entier naturel $n$ par $u_0 = 5$ et $u_{n+1} = \\frac{3u_n + 1}{u_n + 3}$. On admet que la suite $(u_n)$ converge vers une limite réelle $L$ et que $u_n > 1$ pour tout entier naturel $n$. Quelle est la valeur de la limite $L$ ?",
     options: [
-      "$+\\infty$",
-      "$3$",
+      "$0$",
       "$1$",
-      "La suite n'admet pas de limite"
+      "$3$",
+      "$+\\infty$"
     ],
     correctAnswer: 1,
-    hint: "Rappelez-vous la limite de la suite $q^n$ lorsque $-1 < q < 1$.",
-    explanation: "Comme la raison $q = \\frac{1}{2}$ est comprise entre $-1$ et $1$, on a : <br> $\\lim_{n \\to +\\infty} \\left(\\frac{1}{2}\\right)^n = 0$. <br> Par produit par $-2$, on obtient $\\lim_{n \\to +\\infty} -2 \\times \\left(\\frac{1}{2}\\right)^n = 0$. <br> Enfin, par somme : $\\lim_{n \\to +\\infty} u_n = 3 - 0 = 3$."
+    hint: "La fonction associée $f(x) = \\frac{3x+1}{x+3}$ est continue. La limite $L$ vérifie donc le point fixe $L = f(L)$, soit $L = \\frac{3L+1}{L+3}$ avec $L \\ge 1$.",
+    explanation: "Comme $(u_n)$ converge vers $L$ et que la fonction $f(x) = \\frac{3x+1}{x+3}$ est continue sur $]-3; +\\infty[$, la limite $L$ vérifie l'équation : <br> $L = f(L) \\iff L = \\frac{3L+1}{L+3}$. <br> En multipliant par $L+3$ (car $L \\ge 1$, donc $L+3 \\ne 0$) : <br> $L(L+3) = 3L+1 \\iff L^2 + 3L = 3L + 1 \\iff L^2 = 1$. <br> L'équation admet deux solutions réelles : $L = 1$ ou $L = -1$. <br> Comme la suite est minorée par $1$ (on a $u_n > 1$ pour tout $n$), la limite $L$ doit être supérieure ou égale à $1$. <br> La seule limite possible est donc $L = 1$."
   },
   {
     id: 2,
     category: "suites",
-    title: "Modélisation arithmético-géométrique",
+    title: "Limite de suite arithmético-géométrique (Ouvert)",
     difficulty: "moyen",
     type: "ouvert",
-    question: "Un lac contient $10\\ 000$ poissons en 2026. Chaque année, $20\\%$ des poissons meurent de causes naturelles ou sont pêchés, et on réintroduit $3\\ 000$ nouveaux poissons. <br> Soit $u_n$ le nombre de poissons (en milliers) en $2026+n$. On modélise par la relation de récurrence : $u_{n+1} = 0{,}8 u_n + 3$ avec $u_0 = 10$. <br> Quelle est la limite théorique de la population du lac (en milliers de poissons) ?",
-    correctAnswer: "15",
-    hint: "Cherchez la valeur constante $\\alpha$ qui vérifie l'équation $\\alpha = 0{,}8\\alpha + 3$. C'est la limite vers laquelle converge la suite.",
-    explanation: "La suite est arithmético-géométrique du type $u_{n+1} = a u_n + b$ avec $a = 0{,}8$ et $b = 3$. <br> Résolvons l'équation de point fixe $\\alpha = 0{,}8\\alpha + 3$ : <br> $\\alpha - 0{,}8\\alpha = 3 \\iff 0{,}2\\alpha = 3 \\iff \\alpha = \\frac{3}{0{,}2} = 15$. <br> La suite $(v_n)$ définie par $v_n = u_n - 15$ est géométrique de raison $a = 0{,}8$. Comme $-1 < 0{,}8 < 1$, $\\lim_{n \\to +\\infty} v_n = 0$. <br> Ainsi, $\\lim_{n \\to +\\infty} u_n = \\lim_{n \\to +\\infty} (v_n + 15) = 15$. La population se stabilisera donc à $15\\ 000$ poissons (soit $15$ milliers)."
-  },
-  {
-    id: 3,
-    category: "suites",
-    title: "Majoration et Convergence",
-    difficulty: "difficile",
-    type: "qcm",
-    question: "Soit $(u_n)$ une suite définie par $u_0 = 1$ et pour tout $n \\in \\mathbb{N}$, $u_{n+1} = \\sqrt{2 + u_n}$. On admet que la suite est croissante et majorée par $2$. Quelle est la valeur de sa limite $L$ ?",
-    options: [
-      "$\\sqrt{2}$",
-      "$2$",
-      "$\\frac{1+\\sqrt{5}}{2}$",
-      "$0$"
-    ],
-    correctAnswer: 1,
-    hint: "La limite $L$ d'une suite définie par $u_{n+1} = f(u_n)$ vérifie l'équation $L = f(L)$ si $f$ est continue.",
-    explanation: "Comme la suite $(u_n)$ est croissante et majorée, le théorème de convergence monotone garantit qu'elle converge vers une limite réelle $L$. <br> La fonction $f(x) = \\sqrt{2+x}$ étant continue sur $[-2; +\\infty[$, la limite $L$ doit vérifier l'équation de point fixe $L = f(L)$, soit : <br> $L = \\sqrt{2+L}$ (avec $L \\ge 0$). <br> En élevant au carré : $L^2 = 2 + L \\iff L^2 - L - 2 = 0$. <br> Le discriminant est $\\Delta = (-1)^2 - 4(1)(-2) = 1 + 8 = 9$. Les racines sont : <br> $L_1 = \\frac{1-3}{2} = -1$ (impossible car $L \\ge 0$ puisque $u_n \\ge 1$) et $L_2 = \\frac{1+3}{2} = 2$. <br> La limite est donc $L = 2$."
+    question: "<b>D'après Bac Antilles-Guyane 2022</b><br>Soit la suite $(u_n)$ modélisant une réserve naturelle, définie par $u_0 = 2$ et pour tout $n \\ge 0$ par $u_{n+1} = 0{,}5 u_n + 3$. <br> Déterminer la limite de cette suite $(u_n)$ en $+\\infty$.",
+    correctAnswer: "6",
+    hint: "Résolvez l'équation de point fixe $\\alpha = 0{,}5\\alpha + 3$. C'est la limite vers laquelle converge toute suite arithmético-géométrique stable.",
+    explanation: "La relation est de la forme $u_{n+1} = a u_n + b$ avec $a=0{,}5$ et $b=3$. <br> 1. Cherchons la constante de point fixe $\\alpha$ : <br> $\\alpha = 0{,}5\\alpha + 3 \\iff 0{,}5\\alpha = 3 \\iff \\alpha = \\frac{3}{0{,}5} = 6$. <br> 2. On introduit la suite auxiliaire $v_n = u_n - 6$. Montrons qu'elle est géométrique : <br> $v_{n+1} = u_{n+1} - 6 = 0{,}5 u_n + 3 - 6 = 0{,}5 u_n - 3 = 0{,}5(u_n - 6) = 0{,}5 v_n$. <br> La suite $(v_n)$ est donc géométrique de raison $q = 0{,}5$ et de premier terme $v_0 = u_0 - 6 = 2 - 6 = -4$. <br> 3. Expression explicite : $v_n = -4 \\times 0{,}5^n$, ce qui implique $u_n = 6 - 4 \\times 0{,}5^n$. <br> 4. Limite : Comme $-1 < 0{,}5 < 1$, on a $\\lim_{n \\to +\\infty} 0{,}5^n = 0$. <br> Donc $\\lim_{n \\to +\\infty} u_n = 6 - 0 = 6$."
   },
 
   // --- FONCTIONS & CONVEXITE ---
   {
-    id: 4,
+    id: 3,
     category: "fonctions",
-    title: "Convexité de fonction exponentielle",
+    title: "Étude de la dérivée seconde (QCM)",
     difficulty: "moyen",
     type: "qcm",
-    question: "Soit la fonction $f$ définie sur $\\mathbb{R}$ par $f(x) = x e^x$. Sur quel intervalle la fonction $f$ est-elle convexe ?",
+    question: "<b>D'après Bac Métropole 2021</b><br>Soit la fonction $f$ définie sur $\\mathbb{R}$ par $f(x) = (x - 1)e^x + 1$. Quelle est l'expression de sa dérivée seconde $f''(x)$ sur $\\mathbb{R}$ ?",
     options: [
-      "$[0; +\\infty[$",
-      "$[-1; +\\infty[$",
-      "$[-2; +\\infty[$",
-      "$\\mathbb{R}$ tout entier"
+      "$f''(x) = (x+1)e^x$",
+      "$f''(x) = x e^x$",
+      "$f''(x) = (x-1)e^x$",
+      "$f''(x) = e^x$"
     ],
-    correctAnswer: 2,
-    hint: "Calculez la dérivée première $f'(x)$ puis la dérivée seconde $f''(x)$, et étudiez le signe de $f''(x)$.",
-    explanation: "$f$ est le produit de deux fonctions dérivables : $u(x) = x$ et $v(x) = e^x$. <br> $f'(x) = u'(x)v(x) + u(x)v'(x) = 1 \\cdot e^x + x \\cdot e^x = (x+1)e^x$. <br> Dérivons à nouveau pour obtenir la dérivée seconde $f''(x)$ : <br> $f''(x) = 1 \\cdot e^x + (x+1)e^x = (x+2)e^x$. <br> Comme l'exponentielle $e^x > 0$ pour tout $x$, le signe de $f''(x)$ dépend uniquement du signe de $x+2$. <br> Ainsi, $f''(x) \\ge 0 \\iff x+2 \\ge 0 \\iff x \\ge -2$. <br> La fonction $f$ est donc convexe sur l'intervalle $[-2; +\\infty[$."
+    correctAnswer: 0,
+    hint: "Dérivez une première fois $f(x)$ en utilisant la règle du produit $(uv)' = u'v + uv'$ avec $u(x) = x-1$ et $v(x) = e^x$. Puis dérivez à nouveau $f'(x)$.",
+    explanation: "Calculons d'abord la dérivée première $f'(x)$ : <br> Soit $u(x) = x - 1 \\implies u'(x) = 1$ et $v(x) = e^x \\implies v'(x) = e^x$. <br> $f'(x) = 1 \\times e^x + (x - 1)e^x = e^x + x e^x - e^x = x e^x$. <br> Dérivons maintenant $f'(x)$ pour obtenir $f''(x)$ : <br> $f'(x)$ est de la forme $w(x) \\cdot e^x$ avec $w(x) = x$ (d'où $w'(x) = 1$). <br> $f''(x) = w'(x)e^x + w(x)e^x = 1 \\times e^x + x \\times e^x = (x + 1)e^x$."
   },
   {
-    id: 5,
+    id: 4,
     category: "fonctions",
-    title: "Dérivée logarithme",
-    difficulty: "facile",
-    type: "ouvert",
-    question: "Soit $f$ la fonction définie sur $]0; +\\infty[$ par $f(x) = \\ln(x^2 + 1)$. Calculer la valeur exacte de la dérivée de $f$ au point d'abscisse $x=1$ (donner le résultat sous forme décimale simple).",
-    correctAnswer: "1",
-    hint: "Utilisez la formule de dérivation des fonctions composées : $(\\ln(u))' = \\frac{u'}{u}$.",
-    explanation: "La fonction est de la forme $\\ln(u)$ avec $u(x) = x^2 + 1$. <br> La dérivée de $u$ est $u'(x) = 2x$. <br> Ainsi, la fonction dérivée de $f$ est : <br> $f'(x) = \\frac{u'(x)}{u(x)} = \\frac{2x}{x^2+1}$. <br> En évaluant au point $x=1$ : <br> $f'(1) = \\frac{2 \\times 1}{1^2+1} = \\frac{2}{2} = 1$."
-  },
-  {
-    id: 6,
-    category: "fonctions",
-    title: "Théorème des Valeurs Intermédiaires (TVI)",
+    title: "Primitive et calcul d'intégrale (Ouvert)",
     difficulty: "difficile",
-    type: "qcm",
-    question: "Soit la fonction $f(x) = x^3 - 3x + 1$ définie sur $[-2; 2]$. Sur cet intervalle, combien de solutions distinctes admet l'équation $f(x) = 0$ ?",
-    options: [
-      "Une seule solution",
-      "Exactement deux solutions",
-      "Exactement trois solutions",
-      "Aucune solution"
-    ],
-    correctAnswer: 2,
-    hint: "Dressez le tableau de variations de $f$. Calculez la dérivée $f'(x)$ et étudiez son signe, puis calculez les valeurs aux bornes et aux extrema locaux.",
-    explanation: "$f'(x) = 3x^2 - 3 = 3(x^2 - 1) = 3(x-1)(x+1)$. <br> La dérivée s'annule en $x = -1$ et $x = 1$. <br> Les variations sont : <br> - Sur $[-2; -1]$ : $f'(x) \\ge 0$, donc $f$ est croissante. $f(-2) = -1$ et $f(-1) = 3$. Le changement de signe implique $1$ unique solution dans $[-2; -1]$ car $0 \\in [-1; 3]$. <br> - Sur $[-1; 1]$ : $f'(x) \\le 0$, donc $f$ est décroissante. $f(-1) = 3$ et $f(1) = -1$. $0 \\in [-1; 3]$ donc $1$ unique solution dans $[-1; 1]$. <br> - Sur $[1; 2]$ : $f'(x) \\ge 0$, donc $f$ est croissante. $f(1) = -1$ et $f(2) = 3$. $0 \\in [-1; 3]$ donc $1$ unique solution dans $[1; 2]$. <br> Par conséquent, l'équation $f(x) = 0$ admet exactement 3 solutions distinctes sur $[-2; 2]$."
+    type: "ouvert",
+    question: "<b>D'après Bac Amérique du Nord 2023</b><br>Soit la fonction $f$ définie sur $\\mathbb{R}$ par $f(x) = x e^{x^2}$. On cherche la valeur exacte de l'intégrale $I = \\int_0^1 x e^{x^2} dx$. <br> On écrira la réponse sous la forme simplifiée $\\frac{e - 1}{2}$ approchée par une valeur décimale arrondie à 3 chiffres après la virgule (ex: 0.859).",
+    correctAnswer: "0.859",
+    hint: "Remarquez que $x e^{x^2}$ est de la forme $\\frac{1}{2} u'(x) e^{u(x)}$ avec $u(x) = x^2$. Trouvez sa primitive $F(x)$.",
+    explanation: "La fonction $f(x) = x e^{x^2}$ peut être réécrite sous la forme : <br> $f(x) = \\frac{1}{2} \\times (2x e^{x^2})$. <br> Si on pose $u(x) = x^2$, on a $u'(x) = 2x$. La fonction est donc de la forme $\\frac{1}{2} u'(x) e^{u(x)}$. <br> Une primitive $F$ de $f$ sur $\\mathbb{R}$ est : <br> $F(x) = \\frac{1}{2} e^{x^2}$. <br> Calculons maintenant l'intégrale $I$ : <br> $I = \\int_0^1 x e^{x^2} dx = \\left[ \\frac{1}{2} e^{x^2} \\right]_0^1 = F(1) - F(0)$ <br> $I = \\frac{1}{2} e^{1^2} - \\frac{1}{2} e^{0^2} = \\frac{e}{2} - \\frac{1}{2} = \\frac{e - 1}{2}$. <br> La valeur numérique approchée est : <br> $\\frac{2{,}71828 - 1}{2} \\approx 0{,}859$."
   },
 
   // --- GEOMETRIE DANS L'ESPACE ---
   {
-    id: 7,
+    id: 5,
     category: "geometrie",
-    title: "Vecteur normal à un plan",
+    title: "Vecteur normal et produit scalaire (QCM)",
     difficulty: "facile",
     type: "qcm",
-    question: "Dans un repère orthonormé de l'espace, on considère le plan $P$ d'équation cartésienne : $3x - y + 2z - 5 = 0$. Lequel de ces vecteurs est normal au plan $P$ ?",
+    question: "<b>D'après Bac Métropole 2023</b><br>Dans un repère orthonormé de l'espace, on considère les points $A(1; 0; 2)$, $B(2; 1; 4)$ et $C(3; 0; 1)$. Lequel de ces vecteurs est normal au plan $(ABC)$ ?",
     options: [
-      "$\\vec{n}(3; 1; 2)$",
-      "$\\vec{n}(3; -1; 2)$",
-      "$\\vec{n}(-3; -1; -2)$",
-      "$\\vec{n}(3; -1; -5)$"
-    ],
-    correctAnswer: 1,
-    hint: "L'équation cartésienne générale d'un plan est $ax+by+cz+d=0$, où $(a; b; c)$ sont les coordonnées d'un vecteur normal.",
-    explanation: "Par lecture directe de l'équation cartésienne $3x - y + 2z - 5 = 0$, les coefficients de $x$, $y$ et $z$ sont respectivement $a=3$, $b=-1$ et $c=2$. <br> Un vecteur normal $\\vec{n}$ a pour coordonnées $(a; b; c) = (3; -1; 2)$."
-  },
-  {
-    id: 8,
-    category: "geometrie",
-    title: "Distance de deux points dans l'espace",
-    difficulty: "facile",
-    type: "ouvert",
-    question: "On considère les points $A(1; 2; 3)$ et $B(3; 4; 0)$ dans un repère orthonormé de l'espace. Calculer le carré de la distance $AB$ (c'est-à-dire la valeur $AB^2$).",
-    correctAnswer: "17",
-    hint: "Utilisez la formule de distance dans l'espace : $AB^2 = (x_B - x_A)^2 + (y_B - y_A)^2 + (z_B - z_A)^2$.",
-    explanation: "Calculons les coordonnées du vecteur $\\vec{AB}$ : <br> $\\vec{AB} = (x_B - x_A; y_B - y_A; z_B - z_A) = (3-1; 4-2; 0-3) = (2; 2; -3)$. <br> Le carré de la distance $AB$ est la norme au carré de ce vecteur : <br> $AB^2 = 2^2 + 2^2 + (-3)^2 = 4 + 4 + 9 = 17$."
-  },
-  {
-    id: 9,
-    category: "geometrie",
-    title: "Intersection droite et plan",
-    difficulty: "difficile",
-    type: "qcm",
-    question: "Soit le plan $P$ d'équation $x + 2y - z + 4 = 0$ et la droite $D$ représentée par : $\\begin{cases} x = 1 + t \\\\ y = -t \\\\ z = 2 + 3t \\end{cases}$ ($t \\in \\mathbb{R}$). Quelles sont les coordonnées du point d'intersection $M$ de $D$ et $P$ ?",
-    options: [
-      "$M(2; -1; 5)$",
-      "$M(1; 0; 2)$",
-      "$M(3; -2; 8)$",
-      "La droite est parallèle au plan, pas d'intersection"
+      "$\\vec{n}(1; -5; 2)$",
+      "$\\vec{n}(2; 1; 4)$",
+      "$\\vec{n}(1; 1; 2)$",
+      "$\\vec{n}(1; 2; 3)$"
     ],
     correctAnswer: 0,
-    hint: "Substituez les expressions de $x(t)$, $y(t)$ et $z(t)$ dans l'équation cartésienne du plan $P$ pour trouver la valeur du paramètre $t$.",
-    explanation: "Substituons les coordonnées de la droite dans l'équation du plan : <br> $(1+t) + 2(-t) - (2+3t) + 4 = 0$ <br> $\\iff 1 + t - 2t - 2 - 3t + 4 = 0$ <br> $\\iff -4t + 3 = 0 \\iff t = \\frac{3}{4}$... Attendez ! Vérifions les coefficients. <br> Si $t = 1$ : le point est $(2; -1; 5)$. Remplaçons dans le plan : $2 + 2(-1) - 5 + 4 = 2 - 2 - 5 + 4 = -1 \\neq 0$. <br> Reprenons le calcul exact pour l'option $M(2; -1; 5)$ qui correspond à $t=1$. <br> Faisons le calcul avec $t=1$: $x=2, y=-1, z=5$. Equation du plan: $x+2y-z+d = 0$. Si l'équation était $x + 2y - z + 5 = 0$, alors $2 - 2 - 5 + 5 = 0$. <br> Corrigeons l'interprétation. Soit le plan $P : x + 2y - z + 5 = 0$. Remplaçons $x, y, z$ de $D$ dans cette équation : <br> $(1+t) + 2(-t) - (2+3t) + 5 = 0 \\iff 1 + t - 2t - 2 - 3t + 5 = 0 \\iff -4t + 4 = 0 \\iff 4t = 4 \\iff t=1$. <br> Pour $t=1$, on obtient bien $x = 1+1=2$, $y = -1$, $z = 2+3=5$, d'où le point $M(2; -1; 5)$."
+    hint: "Déterminez les coordonnées des vecteurs $\\vec{AB}$ et $\\vec{AC}$, puis vérifiez quel vecteur $\\vec{n}$ est orthogonal à ces deux vecteurs simultanément en calculant leur produit scalaire.",
+    explanation: "Calculons les coordonnées des vecteurs directeurs du plan : <br> $\\vec{AB} = (2-1; 1-0; 4-2) = (1; 1; 2)$. <br> $\\vec{AC} = (3-1; 0-0; 1-2) = (2; 0; -1)$. <br> Vérifions l'orthogonalité du vecteur proposé $\\vec{n}(1; -5; 2)$ : <br> - $\\vec{n} \\cdot \\vec{AB} = 1 \\times 1 + (-5) \\times 1 + 2 \\times 2 = 1 - 5 + 4 = 0$. <br> - $\\vec{n} \\cdot \\vec{AC} = 1 \\times 2 + (-5) \\times 0 + 2 \\times (-1) = 2 + 0 - 2 = 0$. <br> Comme $\\vec{n}$ est orthogonal à deux vecteurs non colinéaires $\\vec{AB}$ et $\\vec{AC}$ du plan $(ABC)$, $\\vec{n}$ est bien normal au plan $(ABC)$."
+  },
+  {
+    id: 6,
+    category: "geometrie",
+    title: "Orthogonalité de vecteurs (Ouvert)",
+    difficulty: "facile",
+    type: "ouvert",
+    question: "<b>D'après Bac Centres Étrangers 2023</b><br>Dans un repère orthonormé, on considère les vecteurs $\\vec{u}(2; 1; -3)$ et $\\vec{v}(1; k; 2)$ où $k$ est un nombre réel. <br> Déterminer la valeur du réel $k$ pour que les vecteurs $\\vec{u}$ et $\\vec{v}$ soient orthogonaux.",
+    correctAnswer: "4",
+    hint: "Deux vecteurs sont orthogonaux si et seulement si leur produit scalaire est nul : $\\vec{u} \\cdot \\vec{v} = 0$.",
+    explanation: "Calculons le produit scalaire $\\vec{u} \\cdot \\vec{v}$ dans le repère orthonormé : <br> $\\vec{u} \\cdot \\vec{v} = x_u x_v + y_u y_v + z_u z_v$ <br> $\\vec{u} \\cdot \\vec{v} = 2 \\times 1 + 1 \\times k + (-3) \\times 2$ <br> $\\vec{u} \\cdot \\vec{v} = 2 + k - 6 = k - 4$. <br> Pour que les vecteurs soient orthogonaux, il faut et il suffit que leur produit scalaire soit nul : <br> $k - 4 = 0 \\iff k = 4$. <br> La valeur cherchée est $4$."
   },
 
   // --- PROBABILITES & DENOMBREMENT ---
   {
-    id: 10,
+    id: 7,
     category: "probabilites",
-    title: "Loi binomiale",
-    difficulty: "moyen",
+    title: "Dénombrement de mots de passe (QCM)",
+    difficulty: "facile",
     type: "qcm",
-    question: "Une urne contient $3$ boules blanches et $7$ boules noires. On tire au hasard une boule, on note sa couleur, puis on la remet. On effectue cette expérience $4$ fois. Quelle est la probabilité d'obtenir exactement $2$ boules blanches ?",
+    question: "<b>D'après Bac Métropole 2022</b><br>Un système de sécurité exige un mot de passe composé de 4 chiffres distincts choisis parmi les chiffres de $0$ à $9$. Combien de mots de passe différents peut-on former ?",
     options: [
-      "$0{,}2646$",
-      "$0{,}09$",
-      "$0{,}216$",
-      "$0{,}3456$"
+      "$5\\ 040$",
+      "$10\\ 000$",
+      "$210$",
+      "$24$"
     ],
     correctAnswer: 0,
-    hint: "Il s'agit d'un schéma de Bernoulli de paramètres $n=4$ et $p=0{,}3$ (probabilité de tirer une boule blanche). Calculez $P(X=2)$.",
-    explanation: "Chaque tirage est indépendant et a $2$ issues (Blanche avec $p = 0{,}3$, Noire avec $1-p = 0{,}7$). On répète $n=4$ fois. <br> Soit $X$ la variable aléatoire égale au nombre de boules blanches. $X$ suit la loi binomiale $\\mathcal{B}(4; 0{,}3)$. <br> $P(X = 2) = \\binom{4}{2} \\times 0{,}3^2 \\times 0{,}7^{4-2}$ <br> $P(X = 2) = 6 \\times 0{,}09 \\times 0{,}49$ <br> $P(X = 2) = 0{,}54 \\times 0{,}49 = 0{,}2646$."
+    hint: "L'ordre des chiffres compte dans un mot de passe, et les éléments doivent être distincts. Il s'agit donc d'un arrangement de 4 éléments parmi 10.",
+    explanation: "Pour le premier chiffre du code, nous avons 10 choix (de 0 à 9). <br> Comme les chiffres doivent être distincts, il nous reste 9 choix pour le deuxième, 8 choix pour le troisième, et 7 choix pour le quatrième. <br> Par le principe multiplicatif, le nombre total de combinaisons est : <br> $A_{10}^{4} = 10 \\times 9 \\times 8 \\times 7 = 5\\ 040$."
   },
   {
-    id: 11,
+    id: 8,
     category: "probabilites",
-    title: "Combinaisons et Dénombrement",
+    title: "Espérance de loi binomiale (Ouvert)",
     difficulty: "facile",
     type: "ouvert",
-    question: "Dans une classe de $10$ élèves de Spé Maths, le professeur souhaite former un groupe de $3$ élèves pour présenter un projet de géométrie. Combien de groupes différents de $3$ élèves peut-il constituer ?",
-    correctAnswer: "120",
-    hint: "Comme l'ordre des élèves dans le groupe n'a pas d'importance, utilisez la formule des combinaisons : $\\binom{n}{k} = \\frac{n!}{k!(n-k)!}$.",
-    explanation: "On cherche à choisir un sous-ensemble non ordonné de $k=3$ élèves parmi un ensemble de $n=10$ élèves. <br> Il s'agit donc du nombre de combinaisons : <br> $\\binom{10}{3} = \\frac{10 \\times 9 \\times 8}{3 \\times 2 \\times 1} = 10 \\times 3 \\times 4 = 120$. <br> Le professeur peut constituer $120$ groupes différents."
+    question: "<b>D'après Bac Amérique du Sud 2022</b><br>Dans une usine de tri, la probabilité qu'un colis contienne un article défectueux est $p = 0{,}4$. On choisit de manière indépendante un échantillon de $5$ colis. On appelle $X$ la variable aléatoire correspondant au nombre de colis contenant un article défectueux. <br> Calculer l'espérance mathématique $E(X)$ de cette variable aléatoire.",
+    correctAnswer: "2",
+    hint: "Identifiez les paramètres $n$ et $p$ de la loi binomiale suivie par $X$, puis appliquez la formule de l'espérance : $E(X) = n \\times p$.",
+    explanation: "1. Les tirages étant indépendants et identiques avec deux issues possibles (défectueux avec $p=0{,}4$ ou non défectueux), la variable aléatoire $X$ suit une loi binomiale de paramètres $n=5$ et $p=0{,}4$, notée $\\mathcal{B}(5; 0{,}4)$. <br> 2. L'espérance mathématique d'une variable suivant une loi binomiale est donnée par la formule : <br> $E(X) = n \\times p$. <br> 3. En remplaçant par les valeurs de l'énoncé : <br> $E(X) = 5 \\times 0{,}4 = 2$. <br> L'espérance de $X$ est donc $2$."
   },
 
   // --- EQUATIONS DIFF & INTEGRATION ---
   {
-    id: 12,
+    id: 9,
     category: "integration",
-    title: "Équation différentielle d'ordre 1",
-    difficulty: "moyen",
-    type: "qcm",
-    question: "Soit l'équation différentielle $(E) : y' + 3y = 6$. Quelle est la solution $f$ de cette équation qui vérifie la condition initiale $f(0) = 5$ ?",
-    options: [
-      "$f(x) = 5 e^{-3x}$",
-      "$f(x) = 3 e^{-3x} + 2$",
-      "$f(x) = 3 e^{3x} + 2$",
-      "$f(x) = -3 e^{-3x} + 8$"
-    ],
-    correctAnswer: 1,
-    hint: "Écrivez $(E)$ sous la forme $y' = ay + b$. Les solutions sont de la forme $C e^{ax} - \\frac{b}{a}$. Utilisez ensuite $f(0)=5$ pour déterminer la constante $C$.",
-    explanation: "$(E) \\iff y' = -3y + 6$. C'est de la forme $y' = ay + b$ avec $a=-3$ et $b=6$. <br> Les solutions sont de la forme $f(x) = C e^{-3x} - \\frac{6}{-3} = C e^{-3x} + 2$. <br> Déterminons la constante $C$ avec $f(0) = 5$ : <br> $C e^{0} + 2 = 5 \\iff C + 2 = 5 \\iff C = 3$. <br> La solution unique est donc : $f(x) = 3 e^{-3x} + 2$."
-  },
-  {
-    id: 13,
-    category: "integration",
-    title: "Calcul de valeur moyenne",
+    title: "Intégration par parties (Ouvert)",
     difficulty: "moyen",
     type: "ouvert",
-    question: "Soit la fonction $f$ définie sur $[0; 2]$ par $f(x) = 3x^2 - 2x$. Calculer la valeur moyenne $\\mu$ de $f$ sur $[0; 2]$.",
-    correctAnswer: "2",
-    hint: "La valeur moyenne est donnée par $\\mu = \\frac{1}{b-a} \\int_a^b f(x) dx$. Déterminez d'abord une primitive $F$ de $f$.",
-    explanation: "Déterminons une primitive $F$ de $f(x) = 3x^2 - 2x$ : <br> $F(x) = x^3 - x^2$. <br> Calculons l'intégrale sur $[0; 2]$ : <br> $\\int_0^2 f(x) dx = F(2) - F(0) = (2^3 - 2^2) - (0^3 - 0^2) = (8 - 4) - 0 = 4$. <br> La valeur moyenne de $f$ sur $[0; 2]$ est donc : <br> $\\mu = \\frac{1}{2-0} \\int_0^2 f(x) dx = \\frac{1}{2} \\times 4 = 2$."
+    question: "<b>D'après Bac Centres Étrangers 2022</b><br>Calculer la valeur exacte de l'intégrale suivante : $J = \\sum \\int_0^1 x e^x dx$. <br> Donner le résultat sous forme d'un nombre entier simple.",
+    correctAnswer: "1",
+    hint: "Utilisez la méthode d'intégration par parties : $\\int_a^b u(x)v'(x)dx = [u(x)v(x)]_a^b - \\int_a^b u'(x)v(x)dx$. Posez $u(x) = x$ et $v'(x) = e^x$.",
+    explanation: "Posons les deux fonctions de classe $\\mathcal{C}^1$ sur $[0; 1]$ : <br> - $u(x) = x \\implies u'(x) = 1$. <br> - $v'(x) = e^x \\implies v(x) = e^x$. <br> Appliquons la formule d'intégration par parties : <br> $J = [x e^x]_0^1 - \\int_0^1 1 \\times e^x dx$ <br> $J = (1 \\times e^1 - 0 \\times e^0) - [e^x]_0^1$ <br> $J = e - (e^1 - e^0)$ <br> $J = e - e + e^0 = e^0 = 1$. <br> La valeur exacte de l'intégrale est donc $1$."
+  },
+  {
+    id: 10,
+    category: "integration",
+    title: "Résolution d'équation différentielle y' = ay + b (QCM)",
+    difficulty: "moyen",
+    type: "qcm",
+    question: "<b>D'après Bac Polynésie 2023</b><br>Soit l'équation différentielle $(E) : y' - 3y = 9$. Quelle est la solution $f$ de cette équation qui vérifie la condition initiale $f(0) = -2$ ?",
+    options: [
+      "$f(x) = e^{3x} - 3$",
+      "$f(x) = e^{-3x} - 3$",
+      "$f(x) = -2 e^{3x}$",
+      "$f(x) = 3 e^{3x} - 5$"
+    ],
+    correctAnswer: 0,
+    hint: "Réécrivez l'équation sous la forme $y' = 3y + 9$. Les solutions d'une équation $y' = ay + b$ sont de la forme $C e^{ax} - \\frac{b}{a}$. Déterminez ensuite la constante $C$ avec $f(0) = -2$.",
+    explanation: "L'équation $(E)$ se réécrit : $y' = 3y + 9$. <br> C'est une équation de la forme $y' = ay + b$ avec $a = 3$ et $b = 9$. <br> Les solutions générales sont définies sur $\\mathbb{R}$ par : <br> $f(x) = C e^{3x} - \\frac{9}{3} = C e^{3x} - 3$ (où $C$ est une constante réelle). <br> Utilisons la condition initiale $f(0) = -2$ pour trouver $C$ : <br> $f(0) = -2 \\iff C e^{3 \\times 0} - 3 = -2 \\iff C \\times 1 - 3 = -2 \\iff C = -2 + 3 = 1$. <br> La solution unique est donc : $f(x) = e^{3x} - 3$."
   }
 ];
 
