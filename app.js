@@ -127,7 +127,7 @@ document.addEventListener("DOMContentLoaded", () => {
       try {
         state.stats = { ...state.stats, ...JSON.parse(savedStats) };
       } catch (e) {
-        console.error("Erreur de lecture du localStorage :", e);
+        // Données corrompues ignorées silencieusement
       }
     }
   }
