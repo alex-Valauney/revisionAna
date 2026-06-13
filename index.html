@@ -1,0 +1,390 @@
+<!DOCTYPE html>
+<html lang="fr">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bac Spé Maths 2026 - Plateforme de Révision Interactive</title>
+  
+  <!-- Fichiers de styles -->
+  <link rel="stylesheet" href="style.css">
+  
+  <!-- CDN pour le rendu mathématique KaTeX -->
+  <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.css">
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/katex.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/katex@0.16.8/dist/contrib/auto-render.min.js"></script>
+
+  <!-- CDN pour les icônes modernes Lucide -->
+  <script src="https://unpkg.com/lucide@latest"></script>
+</head>
+<body>
+
+  <div class="app-container">
+    
+    <!-- BARRE DE NAVIGATION LATERALE -->
+    <aside class="sidebar">
+      <div class="logo-container">
+        <div class="logo-icon">Σ</div>
+        <div class="logo-text">
+          <h1>Spé Maths</h1>
+          <span>Objectif Bac 2026</span>
+        </div>
+      </div>
+      
+      <nav class="nav-menu">
+        <li class="nav-item">
+          <a class="nav-link" data-tab="dashboard">
+            <i data-lucide="layout-dashboard"></i>
+            <span>Tableau de bord</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-tab="exercises">
+            <i data-lucide="graduation-cap"></i>
+            <span>Entraînement</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-tab="cheatsheet">
+            <i data-lucide="book-open"></i>
+            <span>Formulaire / Cours</span>
+          </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-link" data-tab="scratchpad">
+            <i data-lucide="pen-tool"></i>
+            <span>Brouillon libre</span>
+          </a>
+        </li>
+      </nav>
+      
+      <div class="sidebar-footer">
+        <div class="user-badge">
+          <div class="user-avatar">TS</div>
+          <div class="user-info">
+            <span class="user-name">Élève Terminale</span>
+            <span class="user-role">Série Générale</span>
+          </div>
+        </div>
+      </div>
+    </aside>
+
+    <!-- ZONE DE CONTENU DYNAMIQUE -->
+    <main class="main-content">
+      
+      <!-- SECTION 1 : TABLEAU DE BORD (DASHBOARD) -->
+      <section id="dashboard" class="tab-content">
+        <div class="dashboard-header">
+          <div class="welcome-section">
+            <h2>Prépare ton épreuve de Spécialité</h2>
+            <p>Révise efficacement avec nos exercices interactifs et nos fiches de cours.</p>
+          </div>
+          <div class="streak-counter" title="Jours de révision consécutifs">
+            <i data-lucide="flame"></i>
+            <span id="dashboard-streak-val">0 Jour</span>
+          </div>
+        </div>
+        
+        <!-- Cartes statistiques globales -->
+        <div class="stats-grid">
+          <div class="glass-card stat-card">
+            <div class="stat-icon"><i data-lucide="check-square"></i></div>
+            <div class="stat-info">
+              <span id="stat-solved" class="stat-value">0</span>
+              <span class="stat-label">Exercices résolus</span>
+            </div>
+          </div>
+          <div class="glass-card stat-card">
+            <div class="stat-icon"><i data-lucide="target"></i></div>
+            <div class="stat-info">
+              <span id="stat-success" class="stat-value">0%</span>
+              <span class="stat-label">Taux de réussite</span>
+            </div>
+          </div>
+          <div class="glass-card stat-card">
+            <div class="stat-icon"><i data-lucide="zap"></i></div>
+            <div class="stat-info">
+              <span id="stat-streak" class="stat-value">0 J</span>
+              <span class="stat-label">Série active</span>
+            </div>
+          </div>
+          <div class="glass-card stat-card">
+            <div class="stat-icon"><i data-lucide="award"></i></div>
+            <div class="stat-info">
+              <span class="stat-value">Bac 2026</span>
+              <span class="stat-label">Spé Maths Générale</span>
+            </div>
+          </div>
+        </div>
+
+        <h3 class="section-title"><i data-lucide="compass"></i> Vos Chapitres au Programme</h3>
+        
+        <!-- Liste des chapitres officiels -->
+        <div class="chapters-grid">
+          <!-- Suites & Récurrence -->
+          <div class="glass-card chapter-card suites">
+            <div class="chapter-header">
+              <div class="chapter-info">
+                <h3>Suites & Récurrence</h3>
+                <p>Limites de suites, raisonnement par récurrence et suites arithmético-géométriques.</p>
+              </div>
+              <div class="chapter-icon"><i data-lucide="hash"></i></div>
+            </div>
+            <div class="chapter-footer">
+              <div class="progress-container">
+                <div class="progress-labels">
+                  <span>Progression</span>
+                  <span id="progress-text-suites">0%</span>
+                </div>
+                <div class="progress-bar-bg">
+                  <div id="progress-fill-suites" class="progress-bar-fill"></div>
+                </div>
+              </div>
+              <button id="btn-start-suites" class="btn btn-primary">Réviser le cours & Exos</button>
+            </div>
+          </div>
+
+          <!-- Fonctions, Continuité & Convexité -->
+          <div class="glass-card chapter-card fonctions">
+            <div class="chapter-header">
+              <div class="chapter-info">
+                <h3>Fonctions & Convexité</h3>
+                <p>Dérivation, théorème des valeurs intermédiaires, convexité, fonctions ln et exp.</p>
+              </div>
+              <div class="chapter-icon"><i data-lucide="trending-up"></i></div>
+            </div>
+            <div class="chapter-footer">
+              <div class="progress-container">
+                <div class="progress-labels">
+                  <span>Progression</span>
+                  <span id="progress-text-fonctions">0%</span>
+                </div>
+                <div class="progress-bar-bg">
+                  <div id="progress-fill-fonctions" class="progress-bar-fill"></div>
+                </div>
+              </div>
+              <button id="btn-start-fonctions" class="btn btn-primary">Réviser le cours & Exos</button>
+            </div>
+          </div>
+
+          <!-- Géométrie dans l'espace -->
+          <div class="glass-card chapter-card geometrie">
+            <div class="chapter-header">
+              <div class="chapter-info">
+                <h3>Géométrie dans l'Espace</h3>
+                <p>Produit scalaire, vecteurs, représentations paramétriques, équations cartésiennes.</p>
+              </div>
+              <div class="chapter-icon"><i data-lucide="layers"></i></div>
+            </div>
+            <div class="chapter-footer">
+              <div class="progress-container">
+                <div class="progress-labels">
+                  <span>Progression</span>
+                  <span id="progress-text-geometrie">0%</span>
+                </div>
+                <div class="progress-bar-bg">
+                  <div id="progress-fill-geometrie" class="progress-bar-fill"></div>
+                </div>
+              </div>
+              <button id="btn-start-geometrie" class="btn btn-primary">Réviser le cours & Exos</button>
+            </div>
+          </div>
+
+          <!-- Probabilités & Dénombrement -->
+          <div class="glass-card chapter-card probabilites">
+            <div class="chapter-header">
+              <div class="chapter-info">
+                <h3>Probabilités & Combinatoire</h3>
+                <p>Dénombrement, loi binomiale, épreuves de Bernoulli et probabilités conditionnelles.</p>
+              </div>
+              <div class="chapter-icon"><i data-lucide="percent"></i></div>
+            </div>
+            <div class="chapter-footer">
+              <div class="progress-container">
+                <div class="progress-labels">
+                  <span>Progression</span>
+                  <span id="progress-text-probabilites">0%</span>
+                </div>
+                <div class="progress-bar-bg">
+                  <div id="progress-fill-probabilites" class="progress-bar-fill"></div>
+                </div>
+              </div>
+              <button id="btn-start-probabilites" class="btn btn-primary">Réviser le cours & Exos</button>
+            </div>
+          </div>
+
+          <!-- Équations différentielles & Intégration -->
+          <div class="glass-card chapter-card integration">
+            <div class="chapter-header">
+              <div class="chapter-info">
+                <h3>Équations Diff & Intégrales</h3>
+                <p>Primitives, intégration par parties, valeur moyenne et équations de type $y' = ay + b$.</p>
+              </div>
+              <div class="chapter-icon"><i data-lucide="help-circle"></i></div>
+            </div>
+            <div class="chapter-footer">
+              <div class="progress-container">
+                <div class="progress-labels">
+                  <span>Progression</span>
+                  <span id="progress-text-integration">0%</span>
+                </div>
+                <div class="progress-bar-bg">
+                  <div id="progress-fill-integration" class="progress-bar-fill"></div>
+                </div>
+              </div>
+              <button id="btn-start-integration" class="btn btn-primary">Réviser le cours & Exos</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 2 : ZONE D'ENTRAINEMENT (EXERCISES) -->
+      <section id="exercises" class="tab-content">
+        <div class="exercise-layout">
+          
+          <!-- Carte Principale de l'Exercice -->
+          <div class="glass-card exercise-main-card">
+            <div class="exercise-top-bar">
+              <div class="exercise-meta">
+                <span id="exercise-cat-badge" class="category-badge">Thème</span>
+                <span id="exercise-diff-badge" class="difficulty-pill facile">Difficulté</span>
+              </div>
+              <h3 id="exercise-title" style="margin: 0; font-size: 1.25rem;">Titre de la question</h3>
+            </div>
+            
+            <!-- Énoncé -->
+            <div id="question-text" class="question-text">
+              Énoncé de l'exercice...
+            </div>
+            
+            <!-- Saisie de la réponse (QCM ou libre) -->
+            <div id="dynamic-answer-area" class="answer-area">
+              <!-- Injecté en JS -->
+            </div>
+            
+            <!-- Indices -->
+            <div class="hints-container">
+              <div id="hint-trigger" class="hint-trigger">
+                <i data-lucide="help-circle"></i> <span>Afficher un indice</span>
+              </div>
+              <div id="hint-box" class="hint-box">
+                <span id="hint-text"></span>
+              </div>
+            </div>
+
+            <!-- Correction détaillée -->
+            <div id="correction-box" class="correction-box">
+              <h4><i data-lucide="check-circle-2"></i> Correction Détaillée</h4>
+              <div id="correction-text">
+                <!-- Injecté en JS -->
+              </div>
+            </div>
+
+            <!-- Actions de bas de carte -->
+            <div class="action-buttons">
+              <button id="exercise-submit" class="btn btn-primary" disabled>
+                Vérifier la réponse <i data-lucide="check"></i>
+              </button>
+              <button id="exercise-next" class="btn btn-primary" style="display: none;">
+                Question Suivante <i data-lucide="arrow-right"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Barre Latérale de l'Exercice (Mini Brouillon + Navigation) -->
+          <div class="exercise-sidebar">
+            <!-- Navigation dans le chapitre -->
+            <div class="glass-card exercise-nav-card">
+              <h4>Questions du Chapitre</h4>
+              <div id="question-status-grid" class="question-status-grid">
+                <!-- Injecté en JS -->
+              </div>
+            </div>
+            
+            <!-- Brouillon rapide -->
+            <div class="glass-card mini-scratchpad-card">
+              <div style="display: flex; justify-content: space-between; align-items: center; margin-bottom: 0.75rem;">
+                <h4 style="margin: 0;"><i data-lucide="edit-3" style="vertical-align: middle;"></i> Brouillon rapide</h4>
+                <div id="scratchpad-toolbar-mini" class="toolbar-group" style="gap: 0.4rem;">
+                  <button class="btn-clear" style="background: none; border: none; color: var(--text-muted); cursor: pointer;" title="Tout effacer"><i data-lucide="trash-2" style="width: 16px; height: 16px;"></i></button>
+                  <button class="btn-eraser" style="background: none; border: none; color: var(--text-muted); cursor: pointer;" title="Gomme"><i data-lucide="eraser" style="width: 16px; height: 16px;"></i></button>
+                  <div class="color-dot white active" style="width: 12px; height: 12px;"></div>
+                  <div class="color-dot teal" style="width: 12px; height: 12px;"></div>
+                  <div class="color-dot pink" style="width: 12px; height: 12px;"></div>
+                </div>
+              </div>
+              <div class="canvas-wrapper">
+                <canvas id="mini-scratch-canvas"></canvas>
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </section>
+
+      <!-- SECTION 3 : FORMULAIRE / COURS -->
+      <section id="cheatsheet" class="tab-content">
+        <div class="cheatsheet-container">
+          <div class="search-bar-container">
+            <input type="text" id="cheatsheet-search" class="search-input" placeholder="Rechercher une formule (ex: récurrence, probabilité, exponentielle)...">
+          </div>
+          
+          <div id="cheatsheet-sections" class="cheatsheet-grid">
+            <!-- Injecté en JS -->
+          </div>
+        </div>
+      </section>
+
+      <!-- SECTION 4 : BROUILLON LIBRE -->
+      <section id="scratchpad" class="tab-content">
+        <div class="scratchpad-container">
+          
+          <!-- Barre d'outils du Brouillon -->
+          <div id="scratchpad-toolbar-main" class="scratchpad-toolbar">
+            <div class="toolbar-group">
+              <span class="tool-label">Couleurs :</span>
+              <div class="color-dot white active"></div>
+              <div class="color-dot teal"></div>
+              <div class="color-dot purple"></div>
+              <div class="color-dot pink"></div>
+              <div class="color-dot yellow"></div>
+            </div>
+            
+            <div class="toolbar-group">
+              <span class="tool-label">Taille :</span>
+              <input type="range" class="brush-size-input" min="1" max="15" value="3">
+            </div>
+            
+            <div class="toolbar-group">
+              <button class="btn btn-outline btn-eraser" style="width: auto; padding: 0.5rem 1rem;">
+                Gomme <i data-lucide="eraser"></i>
+              </button>
+              <button class="btn btn-primary btn-clear" style="width: auto; padding: 0.5rem 1rem; background: linear-gradient(135deg, var(--neon-red), #b91c1c);">
+                Effacer <i data-lucide="trash-2"></i>
+              </button>
+            </div>
+          </div>
+
+          <!-- Zone du Canvas -->
+          <div class="canvas-wrapper">
+            <canvas id="scratch-canvas"></canvas>
+          </div>
+        </div>
+      </section>
+
+    </main>
+
+  </div>
+
+  <!-- Chargement des scripts -->
+  <script src="exercises.js"></script>
+  <script src="app.js"></script>
+  <script>
+    // Initialiser les icônes Lucide dès le chargement
+    document.addEventListener("DOMContentLoaded", () => {
+      if (typeof lucide !== 'undefined') {
+        lucide.createIcons();
+      }
+    });
+  </script>
+</body>
+</html>
