@@ -303,6 +303,16 @@ document.addEventListener("DOMContentLoaded", () => {
     diffBadge.className = `difficulty-pill ${ex.difficulty}`;
     diffBadge.textContent = ex.difficulty;
 
+    // Source / Provenance
+    const sourceRow = document.getElementById("exercise-source-row");
+    const sourceBadge = document.getElementById("exercise-source-badge");
+    if (ex.source) {
+      sourceBadge.textContent = ex.source;
+      sourceRow.style.display = "flex";
+    } else {
+      sourceRow.style.display = "none";
+    }
+
     // Enoncé en LaTeX / HTML
     const qText = document.getElementById("question-text");
     qText.innerHTML = ex.question;
