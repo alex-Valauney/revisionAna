@@ -2199,6 +2199,226 @@ body {
   }
 }
 
+/* --- MICRO-PHONE MODE (SCREENS <= 360px) --- */
+@media (max-width: 360px) {
+  /* En-tête encore plus compact */
+  .sidebar {
+    padding: 0 0.5rem !important;
+  }
+
+  .logo-text h1 {
+    font-size: 0.8rem !important;
+  }
+
+  .logo-icon {
+    width: 26px !important;
+    height: 26px !important;
+    font-size: 0.85rem !important;
+  }
+
+  .user-avatar {
+    width: 26px !important;
+    height: 26px !important;
+    font-size: 0.7rem !important;
+  }
+
+  /* Barre de navigation inférieure compacte */
+  .sidebar .nav-menu {
+    height: 58px !important;
+    padding: 2px 0 !important;
+  }
+
+  .nav-link {
+    gap: 1px !important;
+    padding: 2px 0 !important;
+  }
+
+  .nav-link i,
+  .nav-link svg {
+    width: 16px !important;
+    height: 16px !important;
+  }
+
+  .nav-link span {
+    font-size: 0.5rem !important;
+    letter-spacing: -0.3px !important;
+  }
+
+  /* Zone de contenu */
+  .main-content {
+    margin-top: 58px !important;
+    margin-bottom: 58px !important;
+    padding: 0.6rem !important;
+  }
+
+  .glass-card {
+    padding: 0.75rem !important;
+    border-radius: 10px !important;
+  }
+
+  /* Dashboard : titres réduits */
+  .dashboard-header {
+    gap: 0.6rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  .welcome-section h2 {
+    font-size: 1.15rem !important;
+  }
+
+  .welcome-section p {
+    font-size: 0.75rem !important;
+  }
+
+  /* Streak counter : texte plus court */
+  .streak-counter {
+    font-size: 0.7rem !important;
+    padding: 0.3rem 0.6rem !important;
+    gap: 0.4rem !important;
+  }
+
+  /* Grille des stats : 2 colonnes très compactes */
+  .stats-grid {
+    gap: 0.4rem !important;
+    margin-bottom: 1.25rem !important;
+  }
+
+  .stat-card {
+    flex-direction: column !important;
+    align-items: center !important;
+    text-align: center !important;
+    padding: 0.5rem 0.4rem !important;
+    gap: 0.3rem !important;
+  }
+
+  .stat-icon {
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 0.8rem !important;
+    border-radius: 7px !important;
+  }
+
+  .stat-value {
+    font-size: 1rem !important;
+  }
+
+  .stat-label {
+    font-size: 0.6rem !important;
+    margin-top: 0 !important;
+  }
+
+  .section-title {
+    font-size: 0.95rem !important;
+    margin-bottom: 0.75rem !important;
+  }
+
+  /* Cartes de chapitres */
+  .chapter-card {
+    min-height: 140px !important;
+  }
+
+  .chapter-info h3 {
+    font-size: 1rem !important;
+  }
+
+  .chapter-info p {
+    font-size: 0.75rem !important;
+  }
+
+  /* Mode Entraînement : badges et badges difficulté */
+  .category-badge {
+    font-size: 0.65rem !important;
+    padding: 0.25rem 0.5rem !important;
+  }
+
+  .difficulty-pill {
+    font-size: 0.6rem !important;
+    padding: 0.2rem 0.4rem !important;
+  }
+
+  .exercise-source-row {
+    font-size: 0.62rem !important;
+    padding: 0.2rem 0.4rem !important;
+  }
+
+  /* Texte de la question */
+  .question-text {
+    font-size: 0.88rem !important;
+    line-height: 1.45 !important;
+    padding: 0.7rem !important;
+  }
+
+  /* Options QCM */
+  .option-button {
+    font-size: 0.8rem !important;
+    padding: 0.65rem 0.85rem !important;
+    gap: 0.6rem !important;
+  }
+
+  .option-check {
+    width: 14px !important;
+    height: 14px !important;
+  }
+
+  /* Zone de saisie libre */
+  .text-input {
+    font-size: 0.85rem !important;
+    padding: 0.65rem 0.85rem !important;
+  }
+
+  /* Boutons d'action */
+  .btn {
+    font-size: 0.8rem !important;
+    padding: 0.65rem 1rem !important;
+  }
+
+  /* Navigation par cercles */
+  .status-dot {
+    width: 28px !important;
+    height: 28px !important;
+    font-size: 0.7rem !important;
+  }
+
+  /* Indices et corrections */
+  .hint-trigger {
+    font-size: 0.78rem !important;
+  }
+
+  .hint-box {
+    font-size: 0.8rem !important;
+    padding: 0.75rem !important;
+  }
+
+  .correction-box {
+    font-size: 0.82rem !important;
+    padding: 1rem !important;
+  }
+
+  /* Mode examen : en-tête compressé */
+  .exam-header-bar {
+    padding: 0.75rem !important;
+    gap: 0.5rem !important;
+  }
+
+  .exam-subject-info h2 {
+    font-size: 1rem !important;
+  }
+
+  .exam-timer-widget span {
+    font-size: 1rem !important;
+  }
+
+  .btn-finish-exam {
+    font-size: 0.8rem !important;
+    padding: 0.5rem 1rem !important;
+  }
+
+  /* Formules mathématiques KaTeX réduites */
+  .katex-display {
+    font-size: 0.82rem !important;
+  }
+}
+
 /* Règle globale pour le défilement horizontal des formules mathématiques KaTeX */
 .katex-display {
   overflow-x: auto !important;
