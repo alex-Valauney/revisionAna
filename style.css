@@ -1708,3 +1708,430 @@ body {
     justify-content: center;
   }
 }
+
+/* --- PHONE MODE (MOBILE RESPONSIVENESS) --- */
+@media (max-width: 576px) {
+  /* En-tête supérieur fixe */
+  .sidebar {
+    position: fixed;
+    top: 0;
+    left: 0;
+    right: 0;
+    width: 100% !important;
+    height: 60px !important;
+    flex-direction: row !important;
+    justify-content: space-between !important;
+    align-items: center !important;
+    padding: 0 1rem !important;
+    border-right: none !important;
+    border-bottom: 1px solid var(--border-glass) !important;
+    z-index: 1000 !important;
+    background: rgba(10, 8, 22, 0.95) !important;
+    backdrop-filter: none !important;
+    -webkit-backdrop-filter: none !important;
+  }
+
+  .logo-container {
+    margin-bottom: 0 !important;
+    gap: 0.5rem !important;
+  }
+
+  .logo-icon {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 1rem !important;
+    border-radius: 8px !important;
+  }
+
+  .logo-text h1 {
+    font-size: 1rem !important;
+  }
+
+  .logo-text span {
+    display: none !important;
+  }
+
+  /* Profil en-tête compact */
+  .sidebar-footer {
+    margin-top: 0 !important;
+    padding-top: 0 !important;
+    border-top: none !important;
+  }
+
+  .user-badge {
+    padding: 0 !important;
+    background: transparent !important;
+    border: none !important;
+  }
+
+  .user-info {
+    display: none !important;
+  }
+
+  .user-avatar {
+    width: 32px !important;
+    height: 32px !important;
+    font-size: 0.8rem !important;
+  }
+
+  /* Barre de navigation inférieure fixe (on surcharge le menu de la sidebar) */
+  .sidebar .nav-menu {
+    display: flex !important;
+    position: fixed !important;
+    bottom: 0 !important;
+    left: 0 !important;
+    right: 0 !important;
+    height: 65px !important;
+    flex-direction: row !important;
+    background: rgba(10, 8, 22, 0.95) !important;
+    border-top: 1px solid var(--border-glass) !important;
+    backdrop-filter: var(--glass-blur) !important;
+    -webkit-backdrop-filter: var(--glass-blur) !important;
+    z-index: 10001 !important;
+    justify-content: space-around !important;
+    align-items: center !important;
+    padding: 4px 0 !important;
+    margin: 0 !important;
+    box-shadow: 0 -4px 20px rgba(0, 0, 0, 0.5) !important;
+  }
+
+  /* Barre de navigation inférieure fixe */
+  .app-container {
+    flex-direction: column !important;
+  }
+
+  .nav-item {
+    flex: 1 !important;
+    display: flex !important;
+    justify-content: center !important;
+    width: auto !important;
+  }
+
+  .nav-link {
+    flex-direction: column !important;
+    gap: 2px !important;
+    padding: 4px 0 !important;
+    align-items: center !important;
+    font-size: 0.65rem !important;
+    justify-content: center !important;
+    width: 100% !important;
+    border: none !important;
+    background: transparent !important;
+    border-radius: 0 !important;
+  }
+
+  .nav-link i,
+  .nav-link svg {
+    font-size: 1.25rem !important;
+    width: 20px !important;
+    height: 20px !important;
+    margin: 0 !important;
+  }
+
+  .nav-link span {
+    font-size: 0.65rem !important;
+    font-weight: 500 !important;
+    display: block !important;
+  }
+
+  .nav-link:hover {
+    transform: none !important;
+    background: transparent !important;
+  }
+
+  .nav-item.active .nav-link {
+    background: transparent !important;
+    border: none !important;
+    box-shadow: none !important;
+  }
+
+  .nav-item.active .nav-link i,
+  .nav-item.active .nav-link svg {
+    color: var(--neon-teal) !important;
+    filter: drop-shadow(0 0 5px rgba(0, 245, 212, 0.6)) !important;
+  }
+
+  .nav-item.active .nav-link span {
+    color: var(--neon-teal) !important;
+  }
+
+  /* Zone de contenu principale */
+  .main-content {
+    margin-left: 0 !important;
+    margin-top: 60px !important;
+    margin-bottom: 65px !important;
+    width: 100% !important;
+    padding: 1rem !important;
+  }
+
+  .welcome-section h2 {
+    font-size: 1.4rem !important;
+  }
+
+  .welcome-section p {
+    font-size: 0.85rem !important;
+  }
+
+  .streak-counter {
+    padding: 0.4rem 0.8rem !important;
+    font-size: 0.8rem !important;
+  }
+
+  .section-title {
+    font-size: 1.15rem !important;
+    margin-bottom: 1rem !important;
+  }
+
+  /* Cartes et paddings */
+  .glass-card {
+    padding: 1.1rem !important;
+    border-radius: 14px !important;
+  }
+
+  /* Grille des statistiques (2 colonnes) */
+  .stats-grid {
+    grid-template-columns: repeat(2, 1fr) !important;
+    gap: 0.75rem !important;
+    margin-bottom: 1.75rem !important;
+  }
+
+  .stat-card {
+    gap: 0.75rem !important;
+    padding: 0.85rem !important;
+  }
+
+  .stat-icon {
+    width: 40px !important;
+    height: 40px !important;
+    border-radius: 10px !important;
+    font-size: 1.1rem !important;
+  }
+
+  .stat-value {
+    font-size: 1.25rem !important;
+  }
+
+  .stat-label {
+    font-size: 0.7rem !important;
+  }
+
+  /* Grille des chapitres */
+  .chapters-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+  }
+
+  .chapter-card {
+    min-height: 180px !important;
+  }
+
+  /* Zone d'entraînement (Exercices) */
+  .exercise-layout {
+    grid-template-columns: 1fr !important;
+    gap: 1.5rem !important;
+  }
+
+  .exercise-main-card {
+    min-height: auto !important;
+    gap: 1rem !important;
+  }
+
+  .exercise-top-bar {
+    padding-bottom: 0.75rem !important;
+  }
+
+  #exercise-title {
+    font-size: 1.1rem !important;
+  }
+
+  .question-text {
+    font-size: 0.95rem !important;
+    line-height: 1.5 !important;
+    padding: 0.85rem !important;
+  }
+
+  .option-button {
+    padding: 0.75rem 1rem !important;
+    font-size: 0.85rem !important;
+    gap: 0.75rem !important;
+  }
+
+  .option-check {
+    width: 16px !important;
+    height: 16px !important;
+  }
+
+  .input-group {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+  }
+
+  .text-input {
+    padding: 0.75rem 1rem !important;
+    font-size: 0.9rem !important;
+    width: 100% !important;
+  }
+
+  .action-buttons {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+  }
+
+  .btn {
+    padding: 0.75rem 1.25rem !important;
+    font-size: 0.85rem !important;
+  }
+
+  /* Brouillon et mini-brouillon */
+  .canvas-wrapper {
+    height: 200px !important;
+  }
+
+  .scratchpad-container {
+    height: auto !important;
+    min-height: 400px !important;
+  }
+
+  .scratchpad-toolbar {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+    align-items: stretch !important;
+    padding: 0.75rem !important;
+  }
+
+  .draw-tools {
+    display: flex !important;
+    flex-direction: column !important;
+    align-items: stretch !important;
+    gap: 0.75rem !important;
+    width: 100% !important;
+  }
+
+  .toolbar-group {
+    justify-content: space-between !important;
+    width: 100% !important;
+  }
+
+  .brush-size-input {
+    width: 100px !important;
+  }
+
+  .mini-scratchpad-card {
+    height: auto !important;
+  }
+
+  .mini-scratchpad-card .canvas-wrapper {
+    height: 180px !important;
+  }
+
+  /* Recherche cheatsheet */
+  .cheatsheet-container {
+    gap: 1.25rem !important;
+  }
+
+  .search-input {
+    padding: 0.75rem 1rem !important;
+    font-size: 0.85rem !important;
+  }
+
+  .formulas-list {
+    grid-template-columns: 1fr !important;
+    gap: 0.75rem !important;
+  }
+
+  .formula-item-box {
+    padding: 1rem !important;
+  }
+
+  /* Mode Examen */
+  .exam-intro-card {
+    padding: 1.5rem !important;
+    border-radius: 16px !important;
+  }
+
+  .exam-intro-header {
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+    text-align: center !important;
+  }
+
+  .exam-intro-icon {
+    width: 48px !important;
+    height: 48px !important;
+    font-size: 1.35rem !important;
+  }
+
+  .exam-intro-title h2 {
+    font-size: 1.35rem !important;
+  }
+
+  .exam-intro-title p {
+    font-size: 0.85rem !important;
+  }
+
+  .exam-rules-grid {
+    grid-template-columns: 1fr !important;
+    gap: 1rem !important;
+    margin-bottom: 1.5rem !important;
+  }
+
+  .rule-card {
+    padding: 1rem !important;
+    gap: 0.5rem !important;
+  }
+
+  .btn-exam-start {
+    padding: 0.85rem 1.75rem !important;
+    font-size: 0.95rem !important;
+    width: 100% !important;
+  }
+
+  .exam-header-bar {
+    padding: 1rem !important;
+    flex-direction: column !important;
+    gap: 0.75rem !important;
+    align-items: stretch !important;
+  }
+
+  .exam-subject-info {
+    justify-content: center !important;
+  }
+
+  .exam-timer-widget {
+    justify-content: center !important;
+    width: 100% !important;
+  }
+
+  .btn-finish-exam {
+    width: 100% !important;
+    justify-content: center !important;
+  }
+
+  .score-circle-neon {
+    width: 110px !important;
+    height: 110px !important;
+  }
+
+  #exam-score-val {
+    font-size: 2.2rem !important;
+  }
+
+  .exam-history-card {
+    padding: 1rem !important;
+  }
+
+  .exam-history-table th,
+  .exam-history-table td {
+    padding: 0.6rem !important;
+    font-size: 0.8rem !important;
+  }
+}
+
+/* Règle globale pour le défilement horizontal des formules mathématiques KaTeX */
+.katex-display {
+  overflow-x: auto !important;
+  overflow-y: hidden !important;
+  padding: 0.4rem 0 !important;
+  width: 100% !important;
+}
+
