@@ -2427,3 +2427,404 @@ body {
   width: 100% !important;
 }
 
+/* --- COMPOSANT : MODAL DE CHOIX DE RÉVISION --- */
+.choice-modal-grid {
+  display: grid;
+  grid-template-columns: 1fr 1fr;
+  gap: 1.5rem;
+  margin: 1.5rem 0;
+}
+
+.choice-card {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-glass);
+  border-radius: 16px;
+  padding: 1.5rem;
+  text-align: center;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.choice-card:hover {
+  background: rgba(255, 255, 255, 0.05);
+  transform: translateY(-4px);
+}
+
+.choice-card.course:hover {
+  border-color: var(--neon-teal);
+  box-shadow: 0 0 15px rgba(0, 245, 212, 0.25);
+}
+
+.choice-card.exercises:hover {
+  border-color: var(--neon-purple);
+  box-shadow: 0 0 15px rgba(157, 78, 221, 0.25);
+}
+
+.choice-icon {
+  width: 56px;
+  height: 56px;
+  border-radius: 14px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 1.8rem;
+  margin-bottom: 0.25rem;
+}
+
+.choice-card.course .choice-icon {
+  background: rgba(0, 245, 212, 0.1);
+  color: var(--neon-teal);
+}
+
+.choice-card.exercises .choice-icon {
+  background: rgba(157, 78, 221, 0.1);
+  color: var(--neon-purple);
+}
+
+.choice-card h4 {
+  font-size: 1.1rem;
+  font-weight: 700;
+  color: #ffffff;
+}
+
+.choice-card p {
+  font-size: 0.82rem;
+  color: var(--text-muted);
+  line-height: 1.4;
+}
+
+/* --- STRUCTURE D'ONGLETS DANS FORMULAIRE / COURS --- */
+.cheatsheet-tabs-container {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+/* Onglets Chapitres */
+.chapter-nav-bar {
+  display: flex;
+  gap: 0.75rem;
+  flex-wrap: wrap;
+  border-bottom: 1px solid var(--border-glass);
+  padding-bottom: 1rem;
+}
+
+.chapter-tab-btn {
+  background: rgba(255, 255, 255, 0.02);
+  border: 1px solid var(--border-glass);
+  color: var(--text-secondary);
+  padding: 0.65rem 1.25rem;
+  border-radius: 10px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.chapter-tab-btn:hover {
+  background: rgba(255, 255, 255, 0.06);
+  color: #ffffff;
+}
+
+.chapter-tab-btn.active.suites {
+  border-color: var(--neon-purple);
+  background: rgba(157, 78, 221, 0.15);
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(157, 78, 221, 0.2);
+}
+
+.chapter-tab-btn.active.fonctions {
+  border-color: var(--neon-indigo);
+  background: rgba(99, 102, 241, 0.15);
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(99, 102, 241, 0.2);
+}
+
+.chapter-tab-btn.active.geometrie {
+  border-color: var(--neon-pink);
+  background: rgba(255, 0, 127, 0.15);
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(255, 0, 127, 0.2);
+}
+
+.chapter-tab-btn.active.probabilites {
+  border-color: var(--neon-yellow);
+  background: rgba(255, 183, 3, 0.12);
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(255, 183, 3, 0.2);
+}
+
+.chapter-tab-btn.active.integration {
+  border-color: var(--neon-teal);
+  background: rgba(0, 245, 212, 0.12);
+  color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 245, 212, 0.2);
+}
+
+/* Sous-Onglets : Formulaire vs Cours Détaillé */
+.view-mode-selector {
+  display: flex;
+  background: rgba(255, 255, 255, 0.02);
+  padding: 4px;
+  border-radius: 10px;
+  border: 1px solid var(--border-glass);
+  width: max-content;
+  align-self: center;
+}
+
+.view-mode-btn {
+  background: transparent;
+  border: none;
+  color: var(--text-muted);
+  padding: 0.5rem 1.25rem;
+  border-radius: 8px;
+  font-size: 0.88rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: var(--transition-smooth);
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.view-mode-btn:hover {
+  color: var(--text-primary);
+}
+
+.view-mode-btn.active {
+  background: linear-gradient(135deg, var(--neon-purple), var(--neon-indigo));
+  color: #ffffff;
+  box-shadow: 0 2px 8px rgba(157, 78, 221, 0.3);
+}
+
+/* --- LE COURS DÉTAILLÉ --- */
+.detailed-course-layout {
+  display: flex;
+  flex-direction: column;
+  gap: 1.5rem;
+}
+
+.course-intro-card {
+  border-left: 4px solid var(--neon-teal);
+}
+
+.course-intro-card p {
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+  line-height: 1.6;
+}
+
+.course-section-block {
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+}
+
+.course-section-title {
+  font-size: 1.25rem;
+  font-weight: 700;
+  color: #ffffff;
+  border-bottom: 1px solid var(--border-glass);
+  padding-bottom: 0.4rem;
+  margin-top: 1rem;
+}
+
+.course-section-content {
+  display: flex;
+  flex-direction: column;
+  gap: 1rem;
+  font-size: 0.95rem;
+  line-height: 1.6;
+  color: var(--text-secondary);
+}
+
+.course-section-content p {
+  margin-bottom: 0.5rem;
+}
+
+.course-section-content ul {
+  padding-left: 1.5rem;
+  margin-bottom: 0.5rem;
+}
+
+.course-section-content li {
+  margin-bottom: 0.4rem;
+}
+
+/* Boîtes de cours stylisées */
+.course-definition,
+.course-theorem,
+.course-method,
+.course-example {
+  border-radius: 12px;
+  padding: 1.25rem 1.5rem;
+  position: relative;
+  overflow: hidden;
+  border: 1px solid transparent;
+  margin: 0.5rem 0;
+}
+
+.course-definition h4,
+.course-theorem h4,
+.course-method h4,
+.course-example h4 {
+  font-size: 1rem;
+  font-weight: 700;
+  margin-bottom: 0.75rem;
+  display: flex;
+  align-items: center;
+  gap: 0.5rem;
+}
+
+.course-definition h5,
+.course-theorem h5,
+.course-method h5,
+.course-example h5 {
+  font-size: 0.9rem;
+  font-weight: 700;
+  margin-top: 0.75rem;
+  margin-bottom: 0.25rem;
+}
+
+/* Définition */
+.course-definition {
+  background: rgba(0, 245, 212, 0.03);
+  border-color: rgba(0, 245, 212, 0.15);
+  border-left: 4px solid var(--neon-teal);
+}
+.course-definition h4 {
+  color: var(--neon-teal);
+}
+
+/* Théorème / Propriété */
+.course-theorem {
+  background: rgba(157, 78, 221, 0.03);
+  border-color: rgba(157, 78, 221, 0.15);
+  border-left: 4px solid var(--neon-purple);
+}
+.course-theorem h4 {
+  color: var(--neon-purple);
+}
+
+/* Méthode / Démo */
+.course-method {
+  background: rgba(99, 102, 241, 0.03);
+  border-color: rgba(99, 102, 241, 0.15);
+  border-left: 4px solid var(--neon-indigo);
+}
+.course-method h4 {
+  color: var(--neon-indigo);
+}
+
+/* Exemple */
+.course-example {
+  background: rgba(255, 255, 255, 0.015);
+  border-color: rgba(255, 255, 255, 0.04);
+  border-left: 4px solid var(--text-muted);
+}
+.course-example h4 {
+  color: var(--text-secondary);
+}
+
+@media (max-width: 768px) {
+  .choice-modal-grid {
+    grid-template-columns: 1fr;
+  }
+}
+
+/* --- COMPOSANT : STRUCTURE GÉNÉRALE DES MODALES (BUGFIX) --- */
+.modal-overlay {
+  position: fixed;
+  top: 0;
+  left: 0;
+  width: 100vw;
+  height: 100vh;
+  background: rgba(6, 5, 11, 0.85);
+  backdrop-filter: blur(8px);
+  -webkit-backdrop-filter: blur(8px);
+  z-index: 1000;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 1rem;
+}
+
+.modal-card {
+  width: 100%;
+  max-width: 500px;
+  animation: modalScaleIn 0.3s cubic-bezier(0.34, 1.56, 0.64, 1) forwards;
+  display: flex;
+  flex-direction: column;
+  gap: 1.25rem;
+  text-align: center;
+  align-items: center;
+}
+
+.modal-icon {
+  width: 64px;
+  height: 64px;
+  border-radius: 50%;
+  background: rgba(239, 68, 68, 0.1);
+  color: var(--neon-red);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  margin-bottom: 0.5rem;
+}
+
+.modal-icon i,
+.modal-icon svg {
+  width: 32px;
+  height: 32px;
+}
+
+.modal-actions {
+  display: flex;
+  gap: 1rem;
+  width: 100%;
+  margin-top: 1rem;
+}
+
+.modal-warning-box {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+  background: rgba(255, 183, 3, 0.08);
+  border: 1px solid rgba(255, 183, 3, 0.2);
+  padding: 0.75rem 1rem;
+  border-radius: 10px;
+  color: var(--neon-yellow);
+  font-size: 0.85rem;
+  text-align: left;
+  line-height: 1.4;
+  width: 100%;
+}
+
+.modal-warning-box i,
+.modal-warning-box svg {
+  width: 18px;
+  height: 18px;
+  flex-shrink: 0;
+}
+
+@keyframes modalScaleIn {
+  from {
+    opacity: 0;
+    transform: scale(0.9) translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: scale(1) translateY(0);
+  }
+}
+
+
+

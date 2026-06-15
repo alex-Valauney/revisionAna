@@ -343,14 +343,53 @@
 
       <!-- SECTION 3 : FORMULAIRE / COURS -->
       <section id="cheatsheet" class="tab-content">
-        <div class="cheatsheet-container">
-          <div class="search-bar-container">
-            <input type="text" id="cheatsheet-search" class="search-input" placeholder="Rechercher une formule (ex: récurrence, probabilité, exponentielle)...">
-          </div>
+        <div class="cheatsheet-tabs-container">
           
-          <div id="cheatsheet-sections" class="cheatsheet-grid">
+          <!-- Navigation entre les chapitres -->
+          <div class="chapter-nav-bar">
+            <button class="chapter-tab-btn active suites" data-chapter="suites">
+              <i data-lucide="hash"></i> <span>Suites & Récurrence</span>
+            </button>
+            <button class="chapter-tab-btn fonctions" data-chapter="fonctions">
+              <i data-lucide="trending-up"></i> <span>Fonctions & Convexité</span>
+            </button>
+            <button class="chapter-tab-btn geometrie" data-chapter="geometrie">
+              <i data-lucide="layers"></i> <span>Géométrie</span>
+            </button>
+            <button class="chapter-tab-btn probabilites" data-chapter="probabilites">
+              <i data-lucide="percent"></i> <span>Probabilités</span>
+            </button>
+            <button class="chapter-tab-btn integration" data-chapter="integration">
+              <i data-lucide="help-circle"></i> <span>Intégrales & Équadiff</span>
+            </button>
+          </div>
+
+          <!-- Sélecteur de mode : Formulaire vs Cours Détaillé -->
+          <div class="view-mode-selector">
+            <button class="view-mode-btn active" data-mode="summary">
+              <i data-lucide="file-text"></i> Formulaire / Fiche
+            </button>
+            <button class="view-mode-btn" data-mode="detailed">
+              <i data-lucide="book-open"></i> Cours Complet
+            </button>
+          </div>
+
+          <!-- Conteneur Formulaire (Fiche Synthétique) -->
+          <div id="cheatsheet-summary-view" class="cheatsheet-container">
+            <div class="search-bar-container">
+              <input type="text" id="cheatsheet-search" class="search-input" placeholder="Rechercher une formule (ex: récurrence, probabilité, exponentielle)...">
+            </div>
+            
+            <div id="cheatsheet-sections" class="cheatsheet-grid">
+              <!-- Injecté en JS -->
+            </div>
+          </div>
+
+          <!-- Conteneur Cours Détaillé -->
+          <div id="cheatsheet-detailed-view" class="detailed-course-layout" style="display: none;">
             <!-- Injecté en JS -->
           </div>
+
         </div>
       </section>
 
@@ -615,9 +654,43 @@
     </div>
   </div>
 
+  <!-- MODALE DE CHOIX DE REVISION -->
+  <div id="revision-choice-modal" class="modal-overlay" style="display:none;" role="dialog" aria-modal="true" aria-labelledby="choice-modal-title">
+    <div class="modal-card glass-card" style="max-width: 600px;">
+      <div class="modal-icon" style="color: var(--neon-teal);">
+        <i data-lucide="compass"></i>
+      </div>
+      <h3 id="choice-modal-title">Préparation du chapitre</h3>
+      <p>Que souhaitez-vous faire pour commencer votre révision ?</p>
+      
+      <div class="choice-modal-grid">
+        <div class="choice-card course" id="choice-btn-course">
+          <div class="choice-icon">
+            <i data-lucide="book-open"></i>
+          </div>
+          <h4>Lire le cours complet</h4>
+          <p>Consulter les définitions, théorèmes et méthodes rédigées du chapitre.</p>
+        </div>
+        
+        <div class="choice-card exercises" id="choice-btn-exercises">
+          <div class="choice-icon">
+            <i data-lucide="graduation-cap"></i>
+          </div>
+          <h4>Faire les exercices</h4>
+          <p>S'entraîner directement avec des questions interactives corrigées.</p>
+        </div>
+      </div>
+      
+      <div class="modal-actions" style="justify-content: center;">
+        <button id="choice-btn-cancel" class="btn btn-outline" style="width: auto; padding: 0.5rem 2rem;">Annuler</button>
+      </div>
+    </div>
+  </div>
+
   <!-- Chargement des scripts -->
   <script src="exercises.js"></script>
   <script src="exercises_exams.js"></script>
+  <script src="cours.js"></script>
   <script src="app.js"></script>
 
   <script>

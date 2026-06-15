@@ -12,6 +12,10 @@ document.addEventListener("DOMContentLoaded", () => {
     userSelection: null, // QCM selection index or open answer string
     isValidated: false,
     
+    // Etat de la section fiches et cours
+    cheatsheetChapter: "suites",
+    cheatsheetViewMode: "summary",
+    
     // Etat du Mode Examen
     exam: {
       active: false,
@@ -39,6 +43,7 @@ document.addEventListener("DOMContentLoaded", () => {
   initScratchpad("scratch-canvas", "scratchpad-toolbar-main");
   initScratchpad("mini-scratch-canvas", "scratchpad-toolbar-mini");
   renderDashboard();
+  initCheatsheetEvents();
   renderCheatsheet();
 
   // Activer le premier onglet
@@ -220,7 +225,7 @@ document.addEventListener("DOMContentLoaded", () => {
         btnEl.replaceWith(btnEl.cloneNode(true));
         const newBtn = document.getElementById(`btn-start-${cat}`);
         newBtn.addEventListener("click", () => {
-          startChapter(cat);
+          showRevisionChoiceModal(cat);
         });
       }
     });
@@ -517,12 +522,123 @@ document.addEventListener("DOMContentLoaded", () => {
     }
   });
 
-  // --- RENDU DES FICHES DE COURS ---
+  // --- MODAL DE CHOIX DE REVISION ---
+  function showRevisionChoiceModal(category) {
+    const modal = document.getElementById("revision-choice-modal");
+    if (!modal) return;
+    
+    // Mettre à jour le titre
+    const titleEl = document.getElementById("choice-modal-title");
+    if (titleEl) {
+      titleEl.textContent = `Préparation : ${getCategoryLabel(category)}`;
+    }
+    
+    modal.style.display = "flex";
+    
+    // Configurer le bouton "Lire le cours"
+    const courseBtn = document.getElementById("choice-btn-course");
+    const newCourseBtn = courseBtn.cloneNode(true);
+    courseBtn.replaceWith(newCourseBtn);
+    newCourseBtn.addEventListener("click", () => {
+      modal.style.display = "none";
+      // Aller à l'onglet cheatsheet, sélectionner le bon chapitre, et le mode détaillé
+      state.cheatsheetChapter = category;
+      state.cheatsheetViewMode = "detailed";
+      switchTab("cheatsheet");
+      renderCheatsheet();
+    });
+    
+    // Configurer le bouton "Faire les exercices"
+    const exercisesBtn = document.getElementById("choice-btn-exercises");
+    const newExercisesBtn = exercisesBtn.cloneNode(true);
+    exercisesBtn.replaceWith(newExercisesBtn);
+    newExercisesBtn.addEventListener("click", () => {
+      modal.style.display = "none";
+      startChapter(category);
+    });
+    
+    // Configurer le bouton "Annuler"
+    const cancelBtn = document.getElementById("choice-btn-cancel");
+    const newCancelBtn = cancelBtn.cloneNode(true);
+    cancelBtn.replaceWith(newCancelBtn);
+    newCancelBtn.addEventListener("click", () => {
+      modal.style.display = "none";
+    });
+  }
+
+  // --- INITIALISATION DES EVENEMENTS DU COURS ---
+  function initCheatsheetEvents() {
+    // Boutons de chapitres
+    const chapterBtns = document.querySelectorAll(".chapter-tab-btn");
+    chapterBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        state.cheatsheetChapter = btn.getAttribute("data-chapter");
+        renderCheatsheet();
+      });
+    });
+
+    // Boutons de mode d'affichage
+    const modeBtns = document.querySelectorAll(".view-mode-btn");
+    modeBtns.forEach(btn => {
+      btn.addEventListener("click", () => {
+        state.cheatsheetViewMode = btn.getAttribute("data-mode");
+        renderCheatsheet();
+      });
+    });
+  }
+
+  // --- RENDU DES FICHES DE COURS ET FORMULAIRES ---
   function renderCheatsheet() {
+    // 1. Mettre à jour l'état visuel des boutons de chapitres
+    const chapterBtns = document.querySelectorAll(".chapter-tab-btn");
+    chapterBtns.forEach(btn => {
+      const chapter = btn.getAttribute("data-chapter");
+      if (chapter === state.cheatsheetChapter) {
+        btn.classList.add("active");
+      } else {
+        btn.classList.remove("active");
+      }
+    });
+
+    // 2. Mettre à jour l'état visuel du sélecteur de mode
+    const modeBtns = document.querySelectorAll(".view-mode-btn");
+    modeBtns.forEach(btn => {
+      const mode = btn.getAttribute("data-mode");
+      if (mode === state.cheatsheetViewMode) {
+        btn.classList.add("active");
+      } else {
+        btn.classList.remove("active");
+      }
+    });
+
+    // 3. Basculer l'affichage des conteneurs
+    const summaryView = document.getElementById("cheatsheet-summary-view");
+    const detailedView = document.getElementById("cheatsheet-detailed-view");
+
+    if (state.cheatsheetViewMode === "summary") {
+      summaryView.style.display = "block";
+      detailedView.style.display = "none";
+      renderCheatsheetSummary();
+    } else {
+      summaryView.style.display = "none";
+      detailedView.style.display = "block";
+      renderCheatsheetDetailed();
+    }
+
+    // Recréer les icônes Lucide
+    if (typeof lucide !== "undefined") {
+      lucide.createIcons();
+    }
+  }
+
+  // Rendu de la fiche synthétique (formulaire classique filtré par chapitre)
+  function renderCheatsheetSummary() {
     const container = document.getElementById("cheatsheet-sections");
     container.innerHTML = "";
 
-    window.FORMULAS_DATA.forEach(section => {
+    const activeFormulaData = window.FORMULAS_DATA.filter(section => section.category === state.cheatsheetChapter);
+
+    activeFormulaData.forEach(section => {
       const card = document.createElement("div");
       card.className = "formula-section-card glass-card";
       
@@ -546,51 +662,81 @@ document.addEventListener("DOMContentLoaded", () => {
       container.appendChild(card);
     });
 
-    // Moteur de recherche en temps réel
+    // Rebrancher le moteur de recherche
     const searchInput = document.getElementById("cheatsheet-search");
-    searchInput.addEventListener("input", (e) => {
-      const query = e.target.value.toLowerCase().trim();
-      
-      document.querySelectorAll(".formula-item-box").forEach(box => {
-        const name = box.getAttribute("data-name");
-        const desc = box.getAttribute("data-desc");
+    if (searchInput) {
+      searchInput.value = ""; // Vider le champ lors d'un changement de chapitre
+      searchInput.oninput = (e) => {
+        const query = e.target.value.toLowerCase().trim();
         
-        if (name.includes(query) || desc.includes(query)) {
-          box.style.display = "block";
-        } else {
-          box.style.display = "none";
-        }
-      });
-
-      // Cacher les sections vides
-      document.querySelectorAll(".formula-section-card").forEach(card => {
-        const visibleBoxes = card.querySelectorAll(".formula-item-box[style='display: block;']");
-        const allBoxes = card.querySelectorAll(".formula-item-box");
-        
-        // Si aucune boîte n'est visible (ou style cache), masquer la section complète
-        let hasVisible = false;
-        allBoxes.forEach(b => {
-          if (b.style.display !== "none") hasVisible = true;
+        container.querySelectorAll(".formula-item-box").forEach(box => {
+          const name = box.getAttribute("data-name");
+          const desc = box.getAttribute("data-desc");
+          
+          if (name.includes(query) || desc.includes(query)) {
+            box.style.display = "block";
+          } else {
+            box.style.display = "none";
+          }
         });
-        
-        if (hasVisible) {
-          card.style.display = "block";
-        } else {
-          card.style.display = "none";
-        }
-      });
-    });
+
+        // Masquer les cartes de formules si aucun élément n'est visible
+        container.querySelectorAll(".formula-section-card").forEach(card => {
+          const allBoxes = card.querySelectorAll(".formula-item-box");
+          let hasVisible = false;
+          allBoxes.forEach(b => {
+            if (b.style.display !== "none") hasVisible = true;
+          });
+          
+          if (hasVisible) {
+            card.style.display = "block";
+          } else {
+            card.style.display = "none";
+          }
+        });
+      };
+    }
 
     // Rendre les formules du formulaire
-    if (typeof renderMathInElement === "function") {
-      renderMathInElement(container, {
-        delimiters: [
-          { left: "$$", right: "$$", display: true },
-          { left: "$", right: "$", display: false }
-        ],
-        throwOnError: false
-      });
+    renderMath(container);
+  }
+
+  // Rendu du cours complet détaillé
+  function renderCheatsheetDetailed() {
+    const container = document.getElementById("cheatsheet-detailed-view");
+    container.innerHTML = "";
+
+    const courseData = window.COURS_DATA.find(course => course.category === state.cheatsheetChapter);
+    if (!courseData) {
+      container.innerHTML = "<p>Aucun cours disponible pour ce chapitre.</p>";
+      return;
     }
+
+    // En-tête / Intro
+    const introCard = document.createElement("div");
+    introCard.className = "glass-card course-intro-card";
+    introCard.innerHTML = `
+      <h2 style="font-size: 1.5rem; font-weight: 800; color: #ffffff; margin-bottom: 0.5rem;">${courseData.title}</h2>
+      <p style="color: var(--text-secondary); line-height: 1.6;">${courseData.introduction}</p>
+    `;
+    container.appendChild(introCard);
+
+    // Sections
+    courseData.sections.forEach(sec => {
+      const secBlock = document.createElement("div");
+      secBlock.className = "course-section-block";
+      
+      secBlock.innerHTML = `
+        <h3 class="course-section-title">${sec.title}</h3>
+        <div class="course-section-content">
+          ${sec.content}
+        </div>
+      `;
+      container.appendChild(secBlock);
+    });
+
+    // Rendre les formules LaTeX dans le cours
+    renderMath(container);
   }
 
   // --- DRAFT SCRATCHPAD (CANVAS) ---
